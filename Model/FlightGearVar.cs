@@ -1,6 +1,7 @@
 ﻿using FlightSimulatorApp.Notifyers;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace FlightSimulatorApp.Model {
     /// Each instance of this class handles one simulator variable.
     /// This class is observable. if the value changes, notify it's observers.
     /// </summary>
-    public class FlightGearVar : INotifyPropertyChanged{
+    public class FlightGearVar : INotifyPropertyChanged {
         /// <summary>
         /// Property of the variable's name. does not have a setter, because the name should not change.
         /// </summary>
@@ -36,7 +37,6 @@ namespace FlightSimulatorApp.Model {
             }
         }
 
-
         public event PropertyChangedEventHandler PropertyChanged;
         /// <summary>
         /// The constructor.
@@ -50,7 +50,7 @@ namespace FlightSimulatorApp.Model {
 
         public void NotifyPropertyChanged(FlightGearVar flightGearVar) {
             if (this.PropertyChanged != null) {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(flightGearVar));
+                this.PropertyChanged(this, new PropertyChangedEventArgs(VarName));
             }
         }
     }

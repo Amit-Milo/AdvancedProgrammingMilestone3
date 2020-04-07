@@ -1,10 +1,11 @@
 ﻿using System;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Diagnostics;
+using FlightSimulatorApp.Notifyers;
+using System.ComponentModel;
 
 namespace FlightSimulatorApp.Model {
     /// <summary>
@@ -22,9 +23,13 @@ namespace FlightSimulatorApp.Model {
         /// </summary>
         private IDictionary<string, FlightGearVar> vars;
         /// <summary>
-        /// The observable function
+        /// The observable function for property changes events.
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
+        /// <summary>
+        /// The observable function for error events.
+        /// </summary>
+        public event ErrorNotification ErrorOccurred;
         /// <summary>
         /// Should be false as long as the connection with the simuator is active.
         /// </summary>
@@ -43,6 +48,7 @@ namespace FlightSimulatorApp.Model {
             this.telnetClient = telnetClient;
             vars = CreateVars(varsNames);
         }
+
         /// <summary>
         /// Converts a list of simulator variables names to a dictionary
         /// </summary>
@@ -54,7 +60,7 @@ namespace FlightSimulatorApp.Model {
                 FlightGearVar currVar = new FlightGearVar(name, 0);
                 currVar.PropertyChanged +=
                     delegate (object sender, PropertyChangedEventArgs e) {
-                        this.NotifyPropertyChanged(currVar);
+                        this.NotifyPropertyChanged(currVar.VarName);
                         //TODO add UpdateMap ***************************************************************************************
                     };
                 varSetting.Add(name, currVar);
@@ -72,9 +78,15 @@ namespace FlightSimulatorApp.Model {
             this.telnetClient.Disconnect();
         }
 
-        public void NotifyPropertyChanged(FlightGearVar flightGearVar) {
+        public void NotifyPropertyChanged(string flightGearVar) {
             if (this.PropertyChanged != null) {
                 this.PropertyChanged(this, new PropertyChangedEventArgs(flightGearVar));
+            }
+        }
+
+        public void NotifyErrorOccurred(string error) {
+            if (this.ErrorOccurred != null) {
+                this.ErrorOccurred(this, error);
             }
         }
 
@@ -112,11 +124,23 @@ namespace FlightSimulatorApp.Model {
         /// <returns> value from the simulator if worked properly, oterhwise the current saved value and error message </returns>
         private double HandleSimulatorReturn(string varName) {
             string returnValue = telnetClient.Read();
-            if (returnValue == "ERR" || returnValue == "ERR\n") { //TODO: add error message and handle any other returnValue values we get.
+            if (returnValue == "ERR" || returnValue == "ERR\n") {
+                this.NotifyErrorOccurred("error: simulator sent ERR value");
                 // return the current value
                 return this.vars[varName].VarValue;
             }
-            return Double.Parse(returnValue);
+            //now check for any other error value:
+            double result;
+            try {
+                result = Double.Parse(returnValue);
+            } catch (Exception) {
+                this.NotifyErrorOccurred("error: simulator sent unexpected value");
+                // return the current value
+                return this.vars[varName].VarValue;
+            }
+            //else, we got a valid double number, return it.
+            return result;
         }
+
     }
 }
