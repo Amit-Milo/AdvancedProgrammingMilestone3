@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ex1.Controllers {
-    interface IControllersViewModel {
-        Tuple<double, double> CalculateJoyStickXY(int xPixel, int yPixel);
+namespace FlightSimulatorApp.Controllers {
+    public interface IControllersViewModel {
+        void SetSimVar(string varName, double value);
     }
 }

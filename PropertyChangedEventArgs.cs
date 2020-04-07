@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ex1 {
+namespace FlightSimulatorApp {
     /// <summary>
     /// A small class that holds an info about a property changed event.
     /// </summary>
-    class PropertyChangedEventArgs {
+    public class PropertyChangedEventArgs {
         /// <summary>
         /// The name of the property that changed.
         /// </summary>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlightSimulatorApp.Controllers {
-    public class ControllersViewModel {
+namespace FlightSimulatorApp.Model {
+    class TelnetClient {
     }
 }

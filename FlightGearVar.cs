@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ex1 {
+namespace FlightSimulatorApp {
     /// <summary>
     /// A small class that takes care of simulator variables' values in other classes.
     /// Each instance of this class handles one simulator variable.
     /// This class is observable. if the value changes, notify it's observers.
     /// </summary>
-    class FlightGearVar : INotifyPropertyChanged{
+    public class FlightGearVar : INotifyPropertyChanged{
         /// <summary>
         /// Property of the variable's name. does not have a setter, because the name should not change.
         /// </summary>
