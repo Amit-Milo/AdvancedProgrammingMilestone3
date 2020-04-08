@@ -16,11 +16,6 @@ namespace FlightSimulatorApp.Notifiers {
         /// The delegate event that will be executed when needed.
         /// </summary>
         event ErrorNotification ErrorOccurred;
-        /// <summary>
-        /// call the ErrorOccurred event.
-        /// </summary>
-        /// <param name="error"> the error message to show </param>
-        void NotifyErrorOccurred(string error);
     }
     /// <summary>
     /// Definition of the delegate function that should be used inside the interface.

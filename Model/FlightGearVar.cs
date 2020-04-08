@@ -32,7 +32,7 @@ namespace FlightSimulatorApp.Model {
                 if (varVal != value) {
                     varVal = value;
                     //if the var's value changed, should notify about that to the observers.
-                    NotifyPropertyChanged(this);
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(VarName));
                 }
             }
         }
@@ -46,12 +46,6 @@ namespace FlightSimulatorApp.Model {
         public FlightGearVar(string name, double value) {
             this.VarName = name;
             this.VarValue = value;
-        }
-
-        public void NotifyPropertyChanged(FlightGearVar flightGearVar) {
-            if (this.PropertyChanged != null) {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(VarName));
-            }
         }
     }
 }

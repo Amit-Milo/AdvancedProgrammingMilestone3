@@ -60,7 +60,7 @@ namespace FlightSimulatorApp.Model {
                 FlightGearVar currVar = new FlightGearVar(name, 0);
                 currVar.PropertyChanged +=
                     delegate (object sender, PropertyChangedEventArgs e) {
-                        this.NotifyPropertyChanged(currVar.VarName);
+                        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(currVar.VarName));
                         //TODO add UpdateMap ***************************************************************************************
                     };
                 varSetting.Add(name, currVar);
@@ -76,18 +76,6 @@ namespace FlightSimulatorApp.Model {
         public void Disconnect() {
             stop = true;
             this.telnetClient.Disconnect();
-        }
-
-        public void NotifyPropertyChanged(string flightGearVar) {
-            if (this.PropertyChanged != null) {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(flightGearVar));
-            }
-        }
-
-        public void NotifyErrorOccurred(string error) {
-            if (this.ErrorOccurred != null) {
-                this.ErrorOccurred(this, error);
-            }
         }
 
         public void Start() {
@@ -125,7 +113,7 @@ namespace FlightSimulatorApp.Model {
         private double HandleSimulatorReturn(string varName) {
             string returnValue = telnetClient.Read();
             if (returnValue == "ERR" || returnValue == "ERR\n") {
-                this.NotifyErrorOccurred("error: simulator sent ERR value");
+                ErrorOccurred?.Invoke(this, "error: simulator sent ERR value");
                 // return the current value
                 return this.vars[varName].VarValue;
             }
@@ -134,7 +122,7 @@ namespace FlightSimulatorApp.Model {
             try {
                 result = Double.Parse(returnValue);
             } catch (Exception) {
-                this.NotifyErrorOccurred("error: simulator sent unexpected value");
+                ErrorOccurred?.Invoke(this, "error: simulator sent unexpected value");
                 // return the current value
                 return this.vars[varName].VarValue;
             }
