@@ -1,4 +1,4 @@
-﻿using FlightSimulatorApp.Notifyers;
+﻿using FlightSimulatorApp.Notifiers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

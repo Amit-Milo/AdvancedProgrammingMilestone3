@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Diagnostics;
-using FlightSimulatorApp.Notifyers;
+using FlightSimulatorApp.Notifiers;
 using System.ComponentModel;
 
 namespace FlightSimulatorApp.Model {
