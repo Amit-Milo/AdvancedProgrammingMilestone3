@@ -4,10 +4,30 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FlightSimulatorApp"
-        xmlns:views="clr-namespace:FlightSimulatorApp.Views"
-        xmlns:viewModels="clr-namespace:FlightSimulatorApp.ViewModels"
+        xmlns:Controllers="clr-namespace:FlightSimulatorApp.Controllers"
+        xmlns:Views="clr-namespace:FlightSimulatorApp.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid Name="mainGrid" Background="Aqua">
+        Title="MainWindow" Height="596.004" Width="890.826">
+    <Grid Name="mainGrid" Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+
+        <!-- The map part (to be added) -->
+        <Grid Grid.RowSpan="2">
+            <Rectangle Fill="GreenYellow"/>
+            <TextBlock Text="MAP" FontSize="150" TextAlignment="Center"  Margin="55"/>
+        </Grid>
+
+        <!-- The data board  (to be added) -->
+        <!-- Added using the code behind -->
+
+        <!-- The controllers panel -->
+        <Controllers:ControllersPanel Grid.Row="1" Grid.Column="1" Margin="0.2,0,-0.4,0"/>
     </Grid>
 </Window>

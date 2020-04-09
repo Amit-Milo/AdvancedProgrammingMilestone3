@@ -1,4 +1,7 @@
-﻿using System;
+﻿using FlightSimulatorApp.Model;
+using FlightSimulatorApp.ViewModels;
+using FlightSimulatorApp.Views;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,22 +16,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using FlightSimulatorApp.Model;
-using FlightSimulatorApp.ViewModels;
-using FlightSimulatorApp.Views;
-
-using System.Threading;
-
 namespace FlightSimulatorApp {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
-    {
+    public partial class MainWindow : Window {
         static IDashboardViewModel vm;
-        public MainWindow()
-        {
+        public MainWindow() {
             InitializeComponent();
+
             List<string> vars = new List<string>();
             vars.Add("/instrumentation/heading-indicator/offset-deg");
             //ITelnetClient client = new TelnetClient();
