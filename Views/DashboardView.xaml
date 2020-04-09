@@ -7,21 +7,24 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Label x:Name="heading_deg"  Height="52" Margin="725,46,15,321" Content="{Binding HeadingDeg}"
-                 Width="52" FontSize="24" Background="Transparent" BorderBrush="Black" BorderThickness="3"/>
-        <Label x:Name="vertical_speed" Height="52" Margin="673,46,67,321" Content="{Binding VerticalSpeed}"
-                 Width="52" FontSize="24" Background="Transparent" BorderBrush="Black" BorderThickness="3"/>
-        <Label x:Name="ground_speed" Height="52" Margin="621,46,119,321" Content="{Binding GroundSpeed}"
-                 Width="52" FontSize="24" Background="Transparent" BorderBrush="Black" BorderThickness="3"/>
-        <Label x:Name="airspeed" Height="52" Margin="569,46,171,321" Content="{Binding AirSpeed}"
-                 Width="52" FontSize="24" Background="Transparent" BorderBrush="Black" BorderThickness="3"/>
-        <Label x:Name="gps_altitude" Height="52" Margin="725,98,15,269" Content="{Binding GpsAltitude}"
-                 Width="52" FontSize="24" Background="Transparent" BorderBrush="Black" BorderThickness="3"/>
-        <Label x:Name="internal_roll" Height="52" Margin="673,98,67,269" Content="{Binding InternalRoll}"
-                 Width="52" FontSize="24" Background="Transparent" BorderBrush="Black" BorderThickness="3"/>
-        <Label x:Name="internal_pitch" Height="52" Margin="621,98,119,269" Content="{Binding InternalPitch}"
-                 Width="52" FontSize="24" Background="Transparent" BorderBrush="Black" BorderThickness="3"/>
-        <Label x:Name="altimer_altitude" Height="52" Margin="569,98,171,269" Content="{Binding AltimeterAltitude}"
-                 Width="52" FontSize="24" Background="Transparent" BorderBrush="Black" BorderThickness="3"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <Label x:Name="heading_deg" Content="{Binding HeadingDeg}" BorderBrush="Black" BorderThickness="3"/>
+        <Label x:Name="vertical_speed" Content="{Binding VerticalSpeed}" Grid.Column="1" BorderBrush="Black" BorderThickness="3"/>
+        <Label x:Name="ground_speed" Content="{Binding GroundSpeed}" Grid.Column="2" BorderBrush="Black" BorderThickness="3"/>
+        <Label x:Name="airspeed" Content="{Binding AirSpeed}" Grid.Column="3" BorderBrush="Black" BorderThickness="3"/>
+        <Label x:Name="gps_altitude" Content="{Binding GpsAltitude}" Grid.Row="1" BorderBrush="Black" BorderThickness="3"/>
+        <Label x:Name="internal_roll" Content="{Binding InternalRoll}" Grid.Row="1" Grid.Column="1" BorderBrush="Black" BorderThickness="3"/>
+        <Label x:Name="internal_pitch" Content="{Binding InternalPitch}" Grid.Row="1" Grid.Column="2" BorderBrush="Black" BorderThickness="3"/>
+        <Label x:Name="altimer_altitude" Content="{Binding AltimeterAltitude}" Grid.Row="1" Grid.Column="3" BorderBrush="Black" BorderThickness="3"/>
     </Grid>
 </UserControl>
