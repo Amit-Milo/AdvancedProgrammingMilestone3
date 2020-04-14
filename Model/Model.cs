@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collecti/ons.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -30,7 +30,7 @@ namespace FlightSimulatorApp.Model {
         /// </summary>
         public event ErrorNotification ErrorOccurred;
         /// <summary>
-        /// Should be false as long as the connection with the simuator is active.
+        /// Should be false as long as the connection with the simulator is active.
         /// </summary>
         volatile bool stop = true;
         /// <summary>
@@ -155,6 +155,7 @@ namespace FlightSimulatorApp.Model {
         }
 
 
+
         private void SetFGVarValue(string varName, double value) {
             // TODO handle timeout error
 
@@ -233,12 +234,12 @@ namespace FlightSimulatorApp.Model {
         /// <summary>
         /// gets the value from the simulator and handles ERR option by returning the current value - last good known
         /// </summary>
-        /// <param name="varName"> the var to get value of incase of ERR return value </param>
-        /// <returns> value from the simulator if worked properly, oterhwise the current saved value and error message </returns>
+        /// <param name="varName"> the var to get value of in case of ERR return value </param>
+        /// <returns> value from the simulator if worked properly, otherwise the current saved value and error message </returns>
         private double HandleSimulatorReturn(string varName) {
             string returnValue = telnetClient.Read();
             if (returnValue == "ERR" || returnValue == "ERR\n") {
-                ErrorOccurred?.Invoke(this, "error: simulator sent ERR value");
+                ErrorOccurred?.Invoke(this, "error: simulator sent ERR value for var name: "+varName);
                 // return the current value
                 return this.vars[varName].VarValue;
             }

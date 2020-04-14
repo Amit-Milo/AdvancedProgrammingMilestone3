@@ -4,18 +4,19 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FlightSimulatorApp"
-        xmlns:Controllers="clr-namespace:FlightSimulatorApp.Controllers"
+        xmlns:UserPanel="clr-namespace:FlightSimulatorApp.UserPanel"
         xmlns:Views="clr-namespace:FlightSimulatorApp.Dashboard"
         mc:Ignorable="d"
-        Title="MainWindow" Height="596.004" Width="890.826">
+        Title="MainWindow" Height="696.004" Width="990.826"
+        MouseUp="Window_MouseUp" MouseMove="Window_MouseMove">
     <Grid Name="mainGrid" Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="2*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <!-- The map part (to be added) -->
@@ -24,12 +25,11 @@
             <TextBlock Text="MAP" FontSize="150" TextAlignment="Center"  Margin="55"/>
         </Grid>
 
-        <!-- The data board  (to be added) -->
+        <!-- The data board  (to be added at the code behind) -->
         <Grid Grid.Column="1">
             <Rectangle Fill="LightBlue"/>
         </Grid>
 
-        <!-- The controllers panel -->
-        <Controllers:ControllersPanel Grid.Row="1" Grid.Column="1" Margin="0.2,0,-0.4,0"/>
+        <!-- The user panel (to be added at the code behind) -->
     </Grid>
 </Window>

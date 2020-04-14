@@ -1,6 +1,9 @@
 ﻿using FlightSimulatorApp.Model;
 using FlightSimulatorApp.Dashboard;
 using FlightSimulator.Map;
+using FlightSimulatorApp.UserPanel.Errors;
+using FlightSimulatorApp.UserPanel;
+
 
 using System;
 using System.Collections.Generic;
@@ -24,7 +27,6 @@ namespace FlightSimulatorApp {
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
-
             ITelnetClient client = new TelnetClient();
             IFlightGearCommunicator m = new Model.Model(client);
             m.Connect("127.0.0.1", 5402);
@@ -35,6 +37,11 @@ namespace FlightSimulatorApp {
             DashboardView dashboard = new DashboardView(vm1);
 
             //add the dashboard to the grid on column 1
+            UserMainPanel userMainPanel = new UserMainPanel(m);
+            this.RegisterName("userPanel", userMainPanel);
+            mainGrid.Children.Add(userMainPanel);
+            Grid.SetColumn(userMainPanel, 1);
+            Grid.SetRow(userMainPanel, 1);
             mainGrid.Children.Add(dashboard);
             Grid.SetColumn(dashboard, 1);
 
@@ -46,5 +53,12 @@ namespace FlightSimulatorApp {
             Grid.SetRowSpan(map, 2);
         }
 
+        private void Window_MouseUp(object sender, MouseButtonEventArgs e) {
+            (this.FindName("userPanel") as UserMainPanel).HandleJoystickMouseUp(sender, e);
+        }
+
+        private void Window_MouseMove(object sender, MouseEventArgs e) {
+            (this.FindName("userPanel") as UserMainPanel).HandleJoystickMouseMove(sender, e);
+        }
     }
 }
