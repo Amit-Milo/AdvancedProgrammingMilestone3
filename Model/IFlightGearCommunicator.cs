@@ -1,4 +1,4 @@
-﻿using FlightSimulatorApp.Notifiers;
+﻿using FlightSimulatorApp.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -32,7 +32,7 @@ namespace FlightSimulatorApp.Model {
         /// Send the simulator a message that gets the value of a variable.
         /// </summary>
         /// <param name="varName"> the name of the variable to get the value of </param>
-        /// <returns> the simulator's value fo the input variable </returns>
+        /// <returns> the simulator's value of the input variable </returns>
         double GetFGVarValue(string varName);
     }
 }

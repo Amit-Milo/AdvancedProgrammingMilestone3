@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="FlightSimulatorApp.UserPanel.Connection.ConnectionPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FlightSimulatorApp.UserPanel.Connection"
+             mc:Ignorable="d" 
+             d:DesignHeight="150" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <!-- the ip label -->
+            <ColumnDefinition Width="Auto"/>
+            <!-- the ip textbox -->
+            <ColumnDefinition Width="5*"/>
+            <!-- the port label -->
+            <ColumnDefinition Width="Auto"/>
+            <!-- the port textbox -->
+            <ColumnDefinition Width="3*"/>
+            <!-- the connect button -->
+            <ColumnDefinition Width="Auto"/>
+            <!-- the disconnect button -->
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- the ip label -->
+        <TextBlock Text="IP:" Grid.Column="0" Margin="2"/>
+        <!-- the ip textbox -->
+        <TextBox x:Name="IP_Entered" Text="{Binding Connection_IP}" Grid.Column="1" Margin="2"/>
+        <!-- the port label -->
+        <TextBlock Text="Port:" Grid.Column="2" Margin="2"/>
+        <!-- the port textbox -->
+        <TextBox x:Name="Port_Entered" Text="{Binding Connection_Port}" Grid.Column="3" Margin="2"/>
+        <!-- the connect button -->
+        <Button x:Name="Connect" Content="Connect" Grid.Column="4" Margin="2" Click="Connect_Click"/>
+        <!-- the disconnect button -->
+        <Button x:Name="Disconnect" Content="Disconnect" Grid.Column="5" Margin="2" Click="Disconnect_Click" />
+    </Grid>
+</UserControl>

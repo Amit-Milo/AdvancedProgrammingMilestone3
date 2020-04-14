@@ -22,7 +22,7 @@ namespace FlightSimulatorApp.Dashboard
         private static readonly string internalPitchName = "/instrumentation/attitude-indicator/internal-pitch-deg";
         private static readonly string altimeterAltitudeName = "/instrumentation/altimeter/indicated-altitude-ft";
 
-        // A dictionary mapping each propery name to the full variable name as saved at the server.
+        // A dictionary mapping each property name to the full variable name as saved at the server.
         private static readonly Dictionary<string, string> properties = new Dictionary<string, string>
         {
             { headingDegName, "HeadingDeg" },
@@ -37,7 +37,7 @@ namespace FlightSimulatorApp.Dashboard
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        // The odel communicating with the server.
+        // The model communicating with the server.
         private readonly IFlightGearCommunicator model;
 
 
@@ -50,7 +50,7 @@ namespace FlightSimulatorApp.Dashboard
         {
             double DefaultValue = 0;
 
-            // Using the mapping dict in a reversed way. Find the key associated with the propery name.
+            // Using the mapping dict in a reversed way. Find the key associated with the property name.
             string keyName = properties.FirstOrDefault(x => x.Value == key).Key;
             try
             {
