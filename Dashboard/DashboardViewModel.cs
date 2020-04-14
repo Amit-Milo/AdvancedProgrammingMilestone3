@@ -54,7 +54,7 @@ namespace FlightSimulatorApp.Dashboard
             string keyName = properties.FirstOrDefault(x => x.Value == key).Key;
             try
             {
-                return this.model.GetFGVarValue(keyName);
+                return this.model.GetVarValue(keyName);
             }
             catch (Exception)
             {
@@ -121,8 +121,13 @@ namespace FlightSimulatorApp.Dashboard
             this.model.PropertyChanged +=
                 delegate (Object sender, PropertyChangedEventArgs e)
                 {
-                    NotifyPropertyChanged(properties[e.PropertyName]);
+                    string name = e.PropertyName;
+                    if (properties.ContainsKey(name))
+                        NotifyPropertyChanged(properties[name]);
                 };
+
+            foreach (string name in properties.Keys)
+                this.model.AddReceiveableVar(name);
         }
     }
 }

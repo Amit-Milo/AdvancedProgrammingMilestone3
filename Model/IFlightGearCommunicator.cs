@@ -27,12 +27,14 @@ namespace FlightSimulatorApp.Model {
         /// </summary>
         /// <param name="varName"> the name of the variable to change </param>
         /// <param name="value"> the new value of the variable </param>
-        void SetFGVarValue(string varName, double value);
+        void SetVarValue(string varName, double value);
         /// <summary>
         /// Send the simulator a message that gets the value of a variable.
         /// </summary>
         /// <param name="varName"> the name of the variable to get the value of </param>
-        /// <returns> the simulator's value of the input variable </returns>
-        double GetFGVarValue(string varName);
+        /// <returns> the simulator's value fo the input variable </returns>
+        double GetVarValue(string varName);
+
+        void AddReceiveableVar(string varName, bool updateOnlyOnChange = true);
     }
 }
