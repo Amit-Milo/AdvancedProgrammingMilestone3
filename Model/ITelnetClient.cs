@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace FlightSimulatorApp.Model {
     /// <summary>
     /// This class takes care of client-server function. 
-    /// Should be able to conneect and disconnect, as well as reading and writing to the server.
+    /// Should be able to connect and disconnect, as well as reading and writing to the server.
     /// </summary>
     public interface ITelnetClient {
         /// <summary>

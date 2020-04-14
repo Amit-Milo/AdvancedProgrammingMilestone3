@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Diagnostics;
-using FlightSimulatorApp.Notifiers;
+using FlightSimulatorApp.Model;
 using System.ComponentModel;
 
 namespace FlightSimulatorApp.Model {
@@ -31,7 +31,7 @@ namespace FlightSimulatorApp.Model {
         /// </summary>
         public event ErrorNotification ErrorOccurred;
         /// <summary>
-        /// Should be false as long as the connection with the simuator is active.
+        /// Should be false as long as the connection with the simulator is active.
         /// </summary>
         volatile bool stop;
         /// <summary>
@@ -52,8 +52,8 @@ namespace FlightSimulatorApp.Model {
         /// <summary>
         /// Converts a list of simulator variables names to a dictionary
         /// </summary>
-        /// <param name="varsNames"> the list of the simulator varibales names </param>
-        /// <returns> a dictionary with the simulator variables names as keys, and simulator variables info obejcts as values </returns>
+        /// <param name="varsNames"> the list of the simulator variables names </param>
+        /// <returns> a dictionary with the simulator variables names as keys, and simulator variables info objects as values </returns>
         private IDictionary<string, FlightGearVar> CreateVars(List<string> varsNames) {
             IDictionary<string, FlightGearVar> varSetting = new Dictionary<string, FlightGearVar>();
             foreach (string name in varsNames) { // create a new pair for the dictionary
@@ -93,7 +93,7 @@ namespace FlightSimulatorApp.Model {
         public void SetFGVarValue(string varName, double value) {
             mut.WaitOne(); //lock the simulator to prevent other threads contacting it at the same time.
             telnetClient.Write("set " + varName + " " + value.ToString() + "\n"); //write the new value to the simulator
-            vars[varName].VarValue = HandleSimulatorReturn(varName); //recieve the accepted simulator value (in case the value we sent is out of bound)
+            vars[varName].VarValue = HandleSimulatorReturn(varName); //receive the accepted simulator value (in case the value we sent is out of bound)
             mut.ReleaseMutex(); //done, release the simulator.
         }
 
@@ -108,12 +108,12 @@ namespace FlightSimulatorApp.Model {
         /// <summary>
         /// gets the value from the simulator and handles ERR option by returning the current value - last good known
         /// </summary>
-        /// <param name="varName"> the var to get value of incase of ERR return value </param>
-        /// <returns> value from the simulator if worked properly, oterhwise the current saved value and error message </returns>
+        /// <param name="varName"> the var to get value of in case of ERR return value </param>
+        /// <returns> value from the simulator if worked properly, otherwise the current saved value and error message </returns>
         private double HandleSimulatorReturn(string varName) {
             string returnValue = telnetClient.Read();
             if (returnValue == "ERR" || returnValue == "ERR\n") {
-                ErrorOccurred?.Invoke(this, "error: simulator sent ERR value");
+                ErrorOccurred?.Invoke(this, "error: simulator sent ERR value for var name: "+varName);
                 // return the current value
                 return this.vars[varName].VarValue;
             }
@@ -122,7 +122,7 @@ namespace FlightSimulatorApp.Model {
             try {
                 result = Double.Parse(returnValue);
             } catch (Exception) {
-                ErrorOccurred?.Invoke(this, "error: simulator sent unexpected value");
+                ErrorOccurred?.Invoke(this, "error: simulator sent unexpected value for var name: " + varName);
                 // return the current value
                 return this.vars[varName].VarValue;
             }

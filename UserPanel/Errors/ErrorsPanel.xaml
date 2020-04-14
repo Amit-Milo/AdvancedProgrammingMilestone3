@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="FlightSimulatorApp.UserPanel.Errors.ErrorsPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FlightSimulatorApp.UserPanel.Errors"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid x:Name="ErrorsPanelGrid">
+        <!-- gets the size of the window -->
+        <Border Name="b"  />
+        <!-- nice colored background -->
+        <Rectangle Fill="LightGray" Width="{Binding ElementName=b,Path=ActualWidth}" Height="{Binding ElementName=b,Path=ActualHeight}"/>
+        <!-- the block that displays the error messages -->
+        <TextBlock x:Name="ErrorPanel" Text="{Binding ErrorMessage, Mode=OneWay}" Width="{Binding ElementName=b,Path=ActualWidth}" TextWrapping="Wrap" Height="50"/>
+    </Grid>
+</UserControl>
