@@ -13,18 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace FlightSimulatorApp.Dashboard
+using Microsoft.Maps.MapControl.WPF;
+
+namespace FlightSimulator.Map
 {
     /// <summary>
-    /// Interaction logic for DashboardView.xaml
+    /// Interaction logic for MapView.xaml
     /// </summary>
-    public partial class DashboardView : UserControl
+    public partial class MapView : UserControl
     {
-        /// <summary>
-        /// The constructor.
-        /// </summary>
-        /// <param name="viewModel"> The viewmodel associated with the dashboard. </param>
-        public DashboardView(IDashboardViewModel viewModel)
+        public MapView(IMapViewModel viewModel)
         {
             InitializeComponent();
 

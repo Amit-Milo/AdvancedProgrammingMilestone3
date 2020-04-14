@@ -24,12 +24,17 @@ namespace FlightSimulatorApp.Model {
         /// <summary>
         /// Property of the variable's value. it's setter also calls a notify observers function.
         /// </summary>
+
+
+        private bool updateOnlyOnChange;
+
+
         public double VarValue {
             get {
                 return varVal;
             }
             set {
-                if (varVal != value) {
+                if (varVal != value || !updateOnlyOnChange) {
                     varVal = value;
                     //if the var's value changed, should notify about that to the observers.
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(VarName));
@@ -43,9 +48,10 @@ namespace FlightSimulatorApp.Model {
         /// </summary>
         /// <param name="name"> the name of the variable </param>
         /// <param name="value"> the value of the variable </param>
-        public FlightGearVar(string name, double value) {
+        public FlightGearVar(string name, double value, bool updateOnlyOnChange = true) {
             this.VarName = name;
             this.VarValue = value;
+            this.updateOnlyOnChange = updateOnlyOnChange;
         }
     }
 }
