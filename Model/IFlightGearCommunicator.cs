@@ -32,7 +32,7 @@ namespace FlightSimulatorApp.Model {
         /// Send the simulator a message that gets the value of a variable.
         /// </summary>
         /// <param name="varName"> the name of the variable to get the value of </param>
-        /// <returns> the simulator's value fo the input variable </returns>
+        /// <returns> the simulator's value for the input variable </returns>
         double GetVarValue(string varName);
 
         void AddReceiveableVar(string varName, bool updateOnlyOnChange = true);
