@@ -21,7 +21,7 @@ namespace FlightSimulatorApp.Dashboard {
         private static readonly string altimeterAltitudeName = "/instrumentation/altimeter/indicated-altitude-ft";
         private const int numberOfDigsToShow = 7;
 
-        // A dictionary mapping each property name to the full variable name as saved at the server.
+        // A dictionary mapping each propery name to the full variable name as saved at the server.
         private static readonly Dictionary<string, string> properties = new Dictionary<string, string>
         {
             { headingDegName, "HeadingDeg" },
@@ -36,7 +36,7 @@ namespace FlightSimulatorApp.Dashboard {
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        // The model communicating with the server.
+        // The odel communicating with the server.
         private readonly IFlightGearCommunicator model;
 
 

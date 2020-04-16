@@ -7,10 +7,7 @@ using System.Threading.Tasks;
 namespace FlightSimulatorApp.Model {
     /// <summary>
     /// This interface takes care of the observable pattern.
-
-
-    /// Each class that implements this interface is an observable, 
-
+    /// Each class that implements this interface is an obervable, 
     /// and its observers can access its delegate event field and add functions that with be executed when the observable changes.
     /// this interface takes care of messaging in events of errors.
     /// </summary>

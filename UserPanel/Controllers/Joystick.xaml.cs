@@ -160,6 +160,7 @@ namespace FlightSimulatorApp.UserPanel.Controllers {
             this.knobHoldingPointRelativeToKnobCenter.Y = e.GetPosition(this.KnobBase).Y - (this.KnobBase).RenderSize.Height / 2;
             //set the being held boolean to true. it will be false again when mouse up event happens.
             this.isJoystickBeingHeld = true;
+            //e.Handled = true ;
         }
 
         /// <summary>

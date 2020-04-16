@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
@@ -17,6 +18,10 @@ namespace FlightSimulatorApp.Model {
         private StreamReader reader = null;
 
         private Mutex mutex = new Mutex();
+
+        private Stopwatch stopWatch = new Stopwatch();
+
+        private int timesOutLately = 0;
 
 
         /// <summary>
@@ -53,20 +58,53 @@ namespace FlightSimulatorApp.Model {
 
         /// <summary>
         /// Try read data sent by the host.
-        /// </summary>
+        /// </summary>//
         /// <returns> The data sent by the host, if the host indeed sent something </returns>
         public string Read() {
             // If client isn't connected there should be no read action.
             if (client == null) {
                 throw new Exception("should connect first");
             }
+            if (!client.Connected)
+                throw new Exception("Server isn't connected.");
 
             // Read data from server, in a threading safe way.
             mutex.WaitOne();
-            string readData = reader.ReadLine();
-            mutex.ReleaseMutex();
+            try
+            {
+                string readData = null;
+                timesOutLately++;
 
-            return readData;
+                // Handle all timeouts.
+                while (timesOutLately > 0)
+                {
+                    // Try to read from host.
+                    stopWatch.Start();
+                    readData = reader.ReadLine();
+                    stopWatch.Stop();
+                    stopWatch.Reset();
+
+                    timesOutLately--;
+                }
+                return readData;
+            }
+            catch (IOException)
+            {
+                // Stop delay count and create appropriate exception.
+                stopWatch.Stop();
+                IOException iOException = new IOException(String.Format("Server didn't respond after {0} seconds.",
+                    stopWatch.ElapsedMilliseconds / 1000));
+
+                // Reset delay count.
+                stopWatch.Reset();
+
+                // Throw the exception.
+                throw iOException;
+            }
+            finally
+            {
+                mutex.ReleaseMutex();
+            }
         }
 
 
@@ -78,6 +116,8 @@ namespace FlightSimulatorApp.Model {
             if (client == null) {
                 throw new Exception("should connect first");
             }
+            if (!client.Connected)
+                throw new Exception("Server isn't connected.");
 
             // Add a '\n' to the end of the message if there is no \n there. 
             if (sendMessage[sendMessage.Length - 1] != '\n') { //all messages should end with a '\n'
@@ -91,8 +131,34 @@ namespace FlightSimulatorApp.Model {
 
             // Send the message in a threading safe way.
             mutex.WaitOne();
-            stream.Write(sendData, 0, sendData.Length);
-            mutex.ReleaseMutex();
+            try
+            {
+                // Try to write to the host.
+                stopWatch.Start();
+                stream.Write(sendData, 0, sendData.Length);
+                stopWatch.Stop();
+                stopWatch.Reset();
+            }
+            catch (IOException)
+            {
+                // Mesure delay time and create appropriate exception.
+                stopWatch.Stop();
+                IOException iOException = new IOException(String.Format("Server didn't respond after {0} seconds.",
+                    stopWatch.ElapsedMilliseconds / 1000));
+
+                // Reset the total delay time.
+                stopWatch.Reset();
+
+                //Increase timeout cases.
+                timesOutLately++;
+
+                // Throw the above exception.
+                throw iOException;
+            }
+            finally
+            {
+                mutex.ReleaseMutex();
+            }
         }
     }
 }

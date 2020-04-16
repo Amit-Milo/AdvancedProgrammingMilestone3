@@ -13,6 +13,7 @@ namespace FlightSimulatorApp.UserPanel.Controllers {
     public class ControllersPanelVM : IControllersPanelVM {
         private IFlightGearCommunicator model;
         private const int numberOfDigsToShow = 5;
+
         private double rudder; //saved for binding to the screen and showing the value
         private double elevator; //saved for binding to the screen and showing the value
         //joystick props
@@ -66,6 +67,7 @@ namespace FlightSimulatorApp.UserPanel.Controllers {
         public ControllersPanelVM(IFlightGearCommunicator model) {
             this.model = model;
         }
+
 
         /// <summary>
         /// in this class, just call the SetFGVar function. no complicated mechanics.
