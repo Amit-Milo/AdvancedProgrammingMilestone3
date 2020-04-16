@@ -60,6 +60,8 @@ namespace FlightSimulatorApp.UserPanel
 
         public UserMainPanel(IControllersPanelVM controllersPanelVM,IConnectionPanelVM connectionPanelVM,IErrorsPanelMessager errorsPanelVM)
         {
+            InitializeComponent();
+
             //add the controllers panel
             ControllersPanel controllersp = new ControllersPanel(controllersPanelVM);
             this.RegisterName("controllersPanel",controllersp);
