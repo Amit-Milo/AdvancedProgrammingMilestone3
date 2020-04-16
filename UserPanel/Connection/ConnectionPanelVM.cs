@@ -8,21 +8,26 @@ using FlightSimulatorApp.UserPanel.Connection;
 using System.Configuration;
 
 using FlightSimulatorApp.Model;
+using System.Net;
 
-namespace FlightSimulatorApp.UserPanel.Connection {
+namespace FlightSimulatorApp.UserPanel.Connection
+{
 
-    public class ConnectionPanelVM : IConnectionPanelVM {
+    public class ConnectionPanelVM : IConnectionPanelVM
+    {
         /// <summary>
         /// the model that we use in the vm.
         /// </summary>
         private readonly IFlightGearCommunicator model;
         private string connection_IP;
         private string connection_Port;
-        public string Connection_IP {
+        public string Connection_IP
+        {
             get { return this.connection_IP; }
             set { this.connection_IP = value; }
         }
-        public string Connection_Port {
+        public string Connection_Port
+        {
             get { return this.connection_Port; }
             set { this.connection_Port = value; }
         }
@@ -31,18 +36,50 @@ namespace FlightSimulatorApp.UserPanel.Connection {
         /// the constructor. get the default ip and port values from the App.config document.
         /// </summary>
         /// <param name="model"> the VM's model </param>
-        public ConnectionPanelVM(IFlightGearCommunicator model) {
+        public ConnectionPanelVM(IFlightGearCommunicator model)
+        {
             this.connection_IP = ConfigurationManager.AppSettings.Get("DEFAULT_IP");
             this.connection_Port = ConfigurationManager.AppSettings.Get("DEFAULT_PORT");
             this.model = model;
         }
 
-        public void Connect() {
-            this.model.Connect(Connection_IP, Int32.Parse(Connection_Port));
+        public void ConnectAndStart()
+        {
+            if (IsValidInput())
+            {
+                this.model.Connect(Connection_IP,Int32.Parse(Connection_Port));
+                this.model.Start();
+            }
+            else
+            {
+                this.NotifyBadInput();
+            }
         }
 
-        public void Disconnect() {
+        public void Disconnect()
+        {
             this.model.Disconnect();
+        }
+
+        public bool IsValidInput()
+        {
+            return IsValidIP() && IsValidPort();
+        }
+
+        private bool IsValidIP()
+        {
+            return IPAddress.TryParse(this.connection_IP,out _);
+        }
+
+
+        private bool IsValidPort()
+        {
+            return int.TryParse(this.Connection_Port,out _);
+        }
+
+        public void NotifyBadInput()
+        {
+            throw new NotImplementedException(); //TODO
         }
     }
 }

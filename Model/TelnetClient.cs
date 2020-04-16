@@ -8,11 +8,13 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace FlightSimulatorApp.Model {
+namespace FlightSimulatorApp.Model
+{
     /// <summary>
     /// Implementation of the ITelnetClient interface.
     /// </summary>
-    public class TelnetClient : ITelnetClient {
+    public class TelnetClient : ITelnetClient
+    {
         private TcpClient client = null;
         private NetworkStream stream = null;
         private StreamReader reader = null;
@@ -29,9 +31,10 @@ namespace FlightSimulatorApp.Model {
         /// </summary>
         /// <param name="ip"> The host's ip </param>
         /// <param name="port"> The hosts port </param>
-        public void Connect(string ip, int port) {
+        public void Connect(string ip,int port)
+        {
             // Instantiate the tcp client.
-            client = new TcpClient(ip, port)
+            client = new TcpClient(ip,port)
             {
                 // Set time out values.
                 ReceiveTimeout = 10000,
@@ -47,8 +50,10 @@ namespace FlightSimulatorApp.Model {
         /// <summary>
         /// Disconnect the client.
         /// </summary>
-        public void Disconnect() {
-            if (client == null) {
+        public void Disconnect()
+        {
+            if (client == null)
+            {
                 throw new Exception("should connect first");
             }
             stream.Close();
@@ -60,9 +65,11 @@ namespace FlightSimulatorApp.Model {
         /// Try read data sent by the host.
         /// </summary>//
         /// <returns> The data sent by the host, if the host indeed sent something </returns>
-        public string Read() {
+        public string Read()
+        {
             // If client isn't connected there should be no read action.
-            if (client == null) {
+            if (client == null)
+            {
                 throw new Exception("should connect first");
             }
             if (!client.Connected)
@@ -112,15 +119,18 @@ namespace FlightSimulatorApp.Model {
         /// Send a message to the host.
         /// </summary>
         /// <param name="sendMessage"> The message to send </param>
-        public void Write(string sendMessage) {
-            if (client == null) {
+        public void Write(string sendMessage)
+        {
+            if (client == null)
+            {
                 throw new Exception("should connect first");
             }
             if (!client.Connected)
                 throw new Exception("Server isn't connected.");
 
             // Add a '\n' to the end of the message if there is no \n there. 
-            if (sendMessage[sendMessage.Length - 1] != '\n') { //all messages should end with a '\n'
+            if (sendMessage[sendMessage.Length - 1] != '\n')
+            { //all messages should end with a '\n'
                 sendMessage += '\n';
             }
 
@@ -135,7 +145,7 @@ namespace FlightSimulatorApp.Model {
             {
                 // Try to write to the host.
                 stopWatch.Start();
-                stream.Write(sendData, 0, sendData.Length);
+                stream.Write(sendData,0,sendData.Length);
                 stopWatch.Stop();
                 stopWatch.Reset();
             }
