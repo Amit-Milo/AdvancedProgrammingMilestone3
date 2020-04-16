@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Maps.MapControl.WPF;
 
-namespace FlightSimulator.Map
+namespace FlightSimulatorApp.Map
 {
     public interface IMapViewModel : INotifyPropertyChanged
     {

@@ -9,7 +9,6 @@ using FlightSimulatorApp.Model;
 
 namespace FlightSimulatorApp.Dashboard
 {
-
     public class DashboardViewModel : IDashboardViewModel
     {
         // Save the full names of the variables as used in the simulator.
@@ -21,7 +20,6 @@ namespace FlightSimulatorApp.Dashboard
         private static readonly string internalRollName = "/instrumentation/attitude-indicator/internal-roll-deg";
         private static readonly string internalPitchName = "/instrumentation/attitude-indicator/internal-pitch-deg";
         private static readonly string altimeterAltitudeName = "/instrumentation/altimeter/indicated-altitude-ft";
-        private const int numberOfDigsToShow = 7;
 
         // A dictionary mapping each propery name to the full variable name as saved at the server.
         private static readonly Dictionary<string,string> properties = new Dictionary<string,string>
@@ -55,6 +53,7 @@ namespace FlightSimulatorApp.Dashboard
             string keyName = properties.FirstOrDefault(x => x.Value == key).Key;
             try
             {
+            // TODO
                 return Math.Round(this.model.GetVarValue(keyName),numberOfDigsToShow);
             }
             catch (Exception)
@@ -120,7 +119,7 @@ namespace FlightSimulatorApp.Dashboard
 
             // Add the viewmodel to the model's listeners.
             this.model.PropertyChanged +=
-                delegate (Object sender,PropertyChangedEventArgs e)
+                delegate (Object sender, PropertyChangedEventArgs e)
                 {
                     string name = e.PropertyName;
                     if (properties.ContainsKey(name))

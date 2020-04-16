@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FlightSimulatorApp.Model;
 
+
 namespace FlightSimulatorApp.UserPanel.Controllers
 {
     /// <summary>
@@ -49,7 +50,7 @@ namespace FlightSimulatorApp.UserPanel.Controllers
             //do not even save a value. when set, just call a setter function that forwards the message. 
             set
             {
-                HandleFGVarSet(properties["throttle"],value); //call the polymorphic function that handles the vars setting
+                HandleFGVarSet(properties["throttle"], value); //call the polymorphic function that handles the vars setting
             }
         }
         public double Aileron
@@ -57,18 +58,19 @@ namespace FlightSimulatorApp.UserPanel.Controllers
             //do not even save a value. when set, just call a setter function that forwards the message. 
             set
             {
-                HandleFGVarSet(properties["aileron"],value); //call the polymorphic function that handles the vars setting
+                HandleFGVarSet(properties["aileron"], value); //call the polymorphic function that handles the vars setting
             }
         }
 
         // A dictionary mapping each property name to the full variable name as saved at the server.
-        protected static readonly Dictionary<string,string> properties = new Dictionary<string,string>
+        protected static readonly Dictionary<string, string> properties = new Dictionary<string, string>
         {
             {"throttle", "/controls/engines/current-engine/throttle" },
             {"elevator", "/controls/flight/elevator"},
             {"rudder", "/controls/flight/rudder" },
             {"aileron", "/controls/flight/aileron"}
         };
+
 
         /// <summary>
         /// the constructor.
@@ -96,6 +98,5 @@ namespace FlightSimulatorApp.UserPanel.Controllers
         {
             model.SetVarValue(varPath,varValue);
         }
-
     }
 }

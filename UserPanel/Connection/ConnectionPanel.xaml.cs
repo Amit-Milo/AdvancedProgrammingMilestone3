@@ -39,10 +39,11 @@ namespace FlightSimulatorApp.UserPanel.Connection
             DataContext = vm;
         }
 
+
         /// <summary>
         /// handle event of connect button click
         /// </summary>
-        private void Connect_Click(object sender,RoutedEventArgs e)
+        private void Connect_Click(object sender, RoutedEventArgs e)
         {
             this.vm.ConnectAndStart();
         }

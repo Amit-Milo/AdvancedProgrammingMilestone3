@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace FlightSimulatorApp.Model
 {
     public interface IFlightGearCommunicator : INotifyPropertyChanged, INotifyError
@@ -15,7 +16,7 @@ namespace FlightSimulatorApp.Model
         /// </summary>
         /// <param name="ip"> the ip address </param>
         /// <param name="port"> the port to connect on </param>
-        void Connect(string ip,int port);
+        void Connect(string ip, int port);
         /// <summary>
         /// Disconnect from the simulator.
         /// </summary>
@@ -29,7 +30,7 @@ namespace FlightSimulatorApp.Model
         /// </summary>
         /// <param name="varName"> the name of the variable to change </param>
         /// <param name="value"> the new value of the variable </param>
-        void SetVarValue(string varName,double value);
+        void SetVarValue(string varName, double value);
         /// <summary>
         /// Send the simulator a message that gets the value of a variable.
         /// </summary>
@@ -37,7 +38,8 @@ namespace FlightSimulatorApp.Model
         /// <returns> the simulator's value fo the input variable </returns>
         double GetVarValue(string varName);
 
-        void AddReceiveableVar(string varName,bool updateOnlyOnChange = true);
+
+        void AddReceiveableVar(string varName, bool updateOnlyOnChange = true);
 
         /// <summary>
         /// notify the Errors panel about the new error that has occurred.

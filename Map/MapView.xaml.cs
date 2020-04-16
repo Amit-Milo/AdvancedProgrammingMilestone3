@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 
 using Microsoft.Maps.MapControl.WPF;
 
-namespace FlightSimulator.Map
+namespace FlightSimulatorApp.Map
 {
     /// <summary>
     /// Interaction logic for MapView.xaml

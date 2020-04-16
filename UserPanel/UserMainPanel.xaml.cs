@@ -77,6 +77,7 @@ namespace FlightSimulatorApp.UserPanel
             Grid.SetRow(errorsPanel,2);
         }
 
+
         /// <summary>
         /// a mouse up event happened. forward it to the joystick. 
         /// </summary>
