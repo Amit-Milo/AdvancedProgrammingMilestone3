@@ -35,7 +35,7 @@ namespace FlightSimulatorApp.UserPanel {
             InitializeComponent();
 
             //add the controllers panel
-            controellsVM = new ControllersPanelVM(model);
+            controellsVM = new WaitingRoomControllersPanelVM(model);
             ControllersPanel controllersp = new ControllersPanel(controellsVM);
             this.RegisterName("controllersPanel", controllersp);
             mainUserPanel.Children.Add(controllersp);

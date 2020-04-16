@@ -10,26 +10,37 @@ using FlightSimulatorApp.Model;
 namespace FlightSimulatorApp.UserPanel.Controllers {
     public class ControllersPanelVM : IControllersPanelVM {
         private IFlightGearCommunicator model;
+        private const int numberOfDigsToShow = 5;
+        private double rudder;
+        private double elevator;
         //joystick props
         public double Elevator {
+            get {
+                return this.elevator;
+            }
             set {
-                SetFGVarValue(properties["elevator"], value);
+                this.elevator = Math.Round(value, numberOfDigsToShow);
+                HandleFGVarSet(properties["elevator"], value);
             }
         }
         public double Rudder {
+            get {
+                return this.rudder;
+            }
             set {
-                SetFGVarValue(properties["rudder"], value);
+                this.rudder = Math.Round(value, numberOfDigsToShow);
+                HandleFGVarSet(properties["rudder"], value);
             }
         }
         //sliders props
         public double Throttle {
             set {
-                SetFGVarValue(properties["throttle"], value);
+                HandleFGVarSet(properties["throttle"], value);
             }
         }
         public double Aileron {
             set {
-                SetFGVarValue(properties["aileron"], value);
+                HandleFGVarSet(properties["aileron"], value);
             }
         }
 
@@ -47,7 +58,7 @@ namespace FlightSimulatorApp.UserPanel.Controllers {
             //TODO add the vars paths to the model. i don't have this method.
         }
 
-        
+
 
         /// <summary>
         /// in this class, just call the SetFGVar function. no complicated mechanics.
@@ -59,7 +70,7 @@ namespace FlightSimulatorApp.UserPanel.Controllers {
         }
 
         public void SetFGVarValue(string varPath, double varValue) {
-            model.SetFGVarValue(varPath, varValue);
+            model.SetVarValue(varPath, varValue);
         }
 
         public void CalculateJoystickProperty(string varPath) {

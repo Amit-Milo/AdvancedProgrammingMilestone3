@@ -24,7 +24,7 @@ namespace FlightSimulator.Map
         private static readonly Dictionary<string, string> properties = new Dictionary<string, string>
         {
             { latitudeName, "Latitude" },
-            { longitudeName, "Longtitude" }
+            { longitudeName, "Longitude" }
         };
 
         

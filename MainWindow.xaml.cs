@@ -20,12 +20,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace FlightSimulatorApp {
+namespace FlightSimulatorApp
+{
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window {
-        public MainWindow() {
+    public partial class MainWindow : Window
+    {
+        public MainWindow()
+        {
             InitializeComponent();
             ITelnetClient client = new TelnetClient();
             IFlightGearCommunicator m = new Model.Model(client);
@@ -53,11 +56,13 @@ namespace FlightSimulatorApp {
             Grid.SetRowSpan(map, 2);
         }
 
-        private void Window_MouseUp(object sender, MouseButtonEventArgs e) {
+        private void Window_MouseUp(object sender, MouseButtonEventArgs e)
+        {
             (this.FindName("userPanel") as UserMainPanel).HandleJoystickMouseUp(sender, e);
         }
 
-        private void Window_MouseMove(object sender, MouseEventArgs e) {
+        private void Window_MouseMove(object sender, MouseEventArgs e)
+        {
             (this.FindName("userPanel") as UserMainPanel).HandleJoystickMouseMove(sender, e);
         }
     }

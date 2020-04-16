@@ -55,12 +55,14 @@ namespace FlightSimulatorApp.UserPanel.Controllers {
         }
 
         public void HandleJoystickMouseUp(object sender, MouseButtonEventArgs e) {
-            //start animation of returning knob to 0,0.
-            Storyboard storyBoard = Knob.FindResource("CenterKnob") as Storyboard;
-            storyBoard.Begin();
-            //TODO maybe set the knob position here to 0?
-            //joystick is not being held anymore, set this boolean to false. it will be false again when mouse up event happens.
-            this.isJoystickBeingHeld = false;
+            if (this.isJoystickBeingHeld) {
+                //start animation of returning knob to 0,0.
+                Storyboard storyBoard = Knob.FindResource("CenterKnob") as Storyboard;
+                storyBoard.Begin();
+                //TODO maybe set the knob position here to 0?
+                //joystick is not being held anymore, set this boolean to false. it will be false again when mouse up event happens.
+                this.isJoystickBeingHeld = false;
+            }
         }
 
         public void HandleJoystickMouseMove(object sender, MouseEventArgs e) {
@@ -111,7 +113,7 @@ namespace FlightSimulatorApp.UserPanel.Controllers {
                                 newKnobX = -newKnobX;
                             }
                             //else keep it positive
-                        } else if ((slope < 0 && newPlannedKnobY < 0) || (slope > 0 && newPlannedKnobY > 0)) {
+                        } else if ((slope > 0 && newPlannedKnobY < 0) || (slope < 0 && newPlannedKnobY > 0)) {
                             newKnobX = -newKnobX;
                         }
                         //else keep it positive
@@ -138,6 +140,7 @@ namespace FlightSimulatorApp.UserPanel.Controllers {
             this.knobHoldingPointRelativeToKnobCenter.Y = e.GetPosition(this.KnobBase).Y - (this.KnobBase).RenderSize.Height / 2;
             //set the being held boolean to true. it will be false again when mouse up event happens.
             this.isJoystickBeingHeld = true;
+            //e.Handled = true ;
         }
 
         private static double Distance(double x1, double y1, double x2, double y2) {

@@ -1,5 +1,7 @@
 ﻿using System;
-using System.Collecti/ons.Generic;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -30,7 +32,7 @@ namespace FlightSimulatorApp.Model {
         /// </summary>
         public event ErrorNotification ErrorOccurred;
         /// <summary>
-        /// Should be false as long as the connection with the simulator is active.
+        /// Should be false as long as the connection with the simuator is active.
         /// </summary>
         volatile bool stop = true;
         /// <summary>
@@ -41,8 +43,6 @@ namespace FlightSimulatorApp.Model {
 
         private Mutex stopMutex = new Mutex();
 
-        private Mutex varsMutex = new Mutex();
-
 
         /// <summary>
         /// A constructor
@@ -51,10 +51,7 @@ namespace FlightSimulatorApp.Model {
         public Model(ITelnetClient telnetClient)
         {
             this.telnetClient = telnetClient;
-
-            varsMutex.WaitOne();
-            vars = new Dictionary<string, FlightGearVar>();
-            varsMutex.ReleaseMutex();
+            vars = new ConcurrentDictionary<string, FlightGearVar>();
         }
 
 
@@ -66,11 +63,7 @@ namespace FlightSimulatorApp.Model {
         {
             double DEFAULT_VALUE = 0;
 
-            varsMutex.WaitOne();
-            bool exists = vars.ContainsKey(varName);
-            varsMutex.ReleaseMutex();
-
-            if (!exists)
+            if (!vars.ContainsKey(varName))
             {
                 // Create a flight gear var based on the name and the default value.
                 FlightGearVar var = new FlightGearVar(varName, DEFAULT_VALUE, updateOnlyOnChange);
@@ -82,9 +75,7 @@ namespace FlightSimulatorApp.Model {
                         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(var.VarName));
                     };
 
-                varsMutex.WaitOne();
                 vars.Add(varName, var);
-                varsMutex.ReleaseMutex();
             }
         }
 
@@ -97,6 +88,15 @@ namespace FlightSimulatorApp.Model {
         public void Connect(string ip, int port) {
             try
             {
+                this.telnetClient.Disconnect();
+            }
+            catch
+            {
+            }
+
+            try
+            {
+                // Try to connect to host.
                 socketMutex.WaitOne();
                 this.telnetClient.Connect(ip, port);
             }
@@ -113,6 +113,7 @@ namespace FlightSimulatorApp.Model {
              * but stop stays false.*/
             stopMutex.WaitOne(0);
             stop = false;
+            this.Start();
             stopMutex.ReleaseMutex();
         }
 
@@ -142,12 +143,10 @@ namespace FlightSimulatorApp.Model {
         public void Start() {
             new Thread(delegate () {
                 while (!stop) {
-                    varsMutex.WaitOne();
                     foreach (string varName in this.vars.Keys) {
                         //update the vars dictionary to the simulator values
                         this.vars[varName].VarValue = this.GetFGVarValue(varName);
                     }
-                    varsMutex.ReleaseMutex();
                     Thread.Sleep(250);
                 }
             }
@@ -155,10 +154,7 @@ namespace FlightSimulatorApp.Model {
         }
 
 
-
         private void SetFGVarValue(string varName, double value) {
-            // TODO handle timeout error
-
             if (!stop)
             {
                 try
@@ -167,34 +163,23 @@ namespace FlightSimulatorApp.Model {
                     socketMutex.WaitOne();
                     //write the new value to the simulator
                     telnetClient.Write("set " + varName + " " + value.ToString() + "\n");
+                    double simulatorReturn = HandleSimulatorReturn(varName);
+                    socketMutex.ReleaseMutex();
 
-                    varsMutex.WaitOne();
                     if (this.vars.ContainsKey(varName))
                         //recieve the accepted simulator value (in case the value we sent is out of bound)
-                        this.vars[varName].VarValue = HandleSimulatorReturn(varName);
-                    varsMutex.ReleaseMutex();
+                        this.vars[varName].VarValue = simulatorReturn;
                 }
-                catch
+                catch (Exception e)
                 {
-                    this.Disconnect();
-                }
-                finally
-                {
-                    varsMutex.ReleaseMutex();
-
-                    //done, release the simulator.
-                    socketMutex.ReleaseMutex();
+                    ErrorOccurred?.Invoke(this, e.Message);
                 }
             }
         }
 
 
         private double GetFGVarValue(string varName) {
-            // TODO handle timeout error
-
-            varsMutex.WaitOne();
             bool available = this.vars.ContainsKey(varName);
-            varsMutex.ReleaseMutex();
 
             double returnVal;
 
@@ -210,23 +195,18 @@ namespace FlightSimulatorApp.Model {
                     double value = HandleSimulatorReturn(varName);
                     return value;
                 }
-                catch
+                catch (Exception e)
                 {
-                    this.Disconnect();
-                    varsMutex.WaitOne();
-                    returnVal = this.vars[varName].VarValue;
-                    varsMutex.ReleaseMutex();
-                    return returnVal;
+                    ErrorOccurred?.Invoke(this, e.Message);
                 }
+
                 finally
                 {
                     //done, release the simulator.
                     socketMutex.ReleaseMutex();
                 }
             }
-            varsMutex.WaitOne();
             returnVal = this.vars[varName].VarValue;
-            varsMutex.ReleaseMutex();
             return returnVal;
         }
 
@@ -234,12 +214,12 @@ namespace FlightSimulatorApp.Model {
         /// <summary>
         /// gets the value from the simulator and handles ERR option by returning the current value - last good known
         /// </summary>
-        /// <param name="varName"> the var to get value of in case of ERR return value </param>
-        /// <returns> value from the simulator if worked properly, otherwise the current saved value and error message </returns>
+        /// <param name="varName"> the var to get value of incase of ERR return value </param>
+        /// <returns> value from the simulator if worked properly, oterhwise the current saved value and error message </returns>
         private double HandleSimulatorReturn(string varName) {
             string returnValue = telnetClient.Read();
             if (returnValue == "ERR" || returnValue == "ERR\n") {
-                ErrorOccurred?.Invoke(this, "error: simulator sent ERR value for var name: "+varName);
+                ErrorOccurred?.Invoke(this, "error: simulator sent ERR value");
                 // return the current value
                 return this.vars[varName].VarValue;
             }

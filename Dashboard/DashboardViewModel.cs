@@ -13,8 +13,8 @@ namespace FlightSimulatorApp.Dashboard
     public class DashboardViewModel : IDashboardViewModel
     {
         // Save the full names of the variables as used in the simulator.
-        private static readonly string headingDegName = "/instrumentation/heading-indicator/offset-deg";
-        private static readonly string verticalSpeedName = "/instrumentation/vertical-speed-indicator/indicated-speed-fpm";
+        private static readonly string headingDegName = "/instrumentation/heading-indicator/indicated-heading-deg";
+        private static readonly string verticalSpeedName = "/instrumentation/gps/indicated-vertical-speed";
         private static readonly string groundSpeedName = "/instrumentation/gps/indicated-ground-speed-kt";
         private static readonly string airSpeedName = "/instrumentation/airspeed-indicator/indicated-speed-kt";
         private static readonly string gpsAltitudeName = "/instrumentation/gps/indicated-altitude-ft";
@@ -22,7 +22,7 @@ namespace FlightSimulatorApp.Dashboard
         private static readonly string internalPitchName = "/instrumentation/attitude-indicator/internal-pitch-deg";
         private static readonly string altimeterAltitudeName = "/instrumentation/altimeter/indicated-altitude-ft";
 
-        // A dictionary mapping each property name to the full variable name as saved at the server.
+        // A dictionary mapping each propery name to the full variable name as saved at the server.
         private static readonly Dictionary<string, string> properties = new Dictionary<string, string>
         {
             { headingDegName, "HeadingDeg" },
@@ -37,7 +37,7 @@ namespace FlightSimulatorApp.Dashboard
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        // The model communicating with the server.
+        // The odel communicating with the server.
         private readonly IFlightGearCommunicator model;
 
 

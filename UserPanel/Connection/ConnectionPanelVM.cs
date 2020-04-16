@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FlightSimulatorApp.UserPanel;
 using FlightSimulatorApp.UserPanel.Connection;
 using System.Configuration;
+
 using FlightSimulatorApp.Model;
 
 namespace FlightSimulatorApp.UserPanel.Connection {
