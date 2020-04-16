@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Maps.MapControl.WPF;
 
-using FlightSimulatorApp.Model; 
+using FlightSimulatorApp.Model;
 
 namespace FlightSimulator.Map
 {
@@ -17,17 +17,17 @@ namespace FlightSimulator.Map
         private static readonly string latitudeName = "/position/latitude-deg";
         private static readonly string longitudeName = "/position/longitude-deg";
 
-        private Location lastLocation = new Location(0, 0);
+        private Location lastLocation = new Location(0,0);
 
 
         // A dictionary mapping each property name to the full variable name as saved at the server.
-        private static readonly Dictionary<string, string> properties = new Dictionary<string, string>
+        private static readonly Dictionary<string,string> properties = new Dictionary<string,string>
         {
             { latitudeName, "Latitude" },
             { longitudeName, "Longitude" }
         };
 
-        
+
         // Position variables.
         private double latitude = 0;
         private double longitude = 0;
@@ -87,7 +87,7 @@ namespace FlightSimulator.Map
             get
             {
                 // Return current location based on latitude and longitude.
-                return new Location(Latitude, Longitude);
+                return new Location(Latitude,Longitude);
             }
         }
 
@@ -110,7 +110,7 @@ namespace FlightSimulator.Map
         }
 
 
-        private static double CalculateRotation(Location p1, Location p2)
+        private static double CalculateRotation(Location p1,Location p2)
         {
             // Convert to radians.
             double lat1 = p1.Latitude * Math.PI / 180;
@@ -126,7 +126,7 @@ namespace FlightSimulator.Map
             double x = Math.Cos(lat1) * Math.Sin(lat2) - Math.Sin(lat1)
                     * Math.Cos(lat2) * Math.Cos(dLon);
 
-            double brng = Math.Atan2(y, x);
+            double brng = Math.Atan2(y,x);
 
             // Convert to radians and rotate the angle as the plane starts directed right.
             return brng * 180 / Math.PI - 90;
@@ -145,7 +145,7 @@ namespace FlightSimulator.Map
         private void NotifyPropertyChanged(string property)
         {
             if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(property));
+                PropertyChanged(this,new PropertyChangedEventArgs(property));
         }
 
 
@@ -157,7 +157,7 @@ namespace FlightSimulator.Map
         private double NormalizeLatitude(double candidate)
         {
             double MAX = 90, MIN = -90;
-            return (candidate > MAX) ? MAX : (candidate < MIN ) ? MIN : candidate;
+            return (candidate > MAX) ? MAX : (candidate < MIN) ? MIN : candidate;
         }
 
 
@@ -181,11 +181,11 @@ namespace FlightSimulator.Map
             this.model = model;
 
             foreach (string var in properties.Keys)
-                model.AddReceiveableVar(var, false);
+                model.AddReceiveableVar(var,false);
 
             // Add the viewmodel to the model's listeners.
             this.model.PropertyChanged +=
-                delegate (Object sender, PropertyChangedEventArgs e)
+                delegate (Object sender,PropertyChangedEventArgs e)
                 {
                     string name = e.PropertyName;
 
@@ -208,12 +208,12 @@ namespace FlightSimulator.Map
 
             // Add self as a listener to the position change.
             this.PropertyChanged +=
-                delegate (Object sender, PropertyChangedEventArgs e)
+                delegate (Object sender,PropertyChangedEventArgs e)
                 {
                     if (e.PropertyName == "Position")
                     {
                         // Calculate the angle between the last position and the new one.
-                        this.Rotation = CalculateRotation(lastLocation, Position);
+                        this.Rotation = CalculateRotation(lastLocation,Position);
 
                         // Update last location.
                         this.lastLocation = Position;

@@ -17,11 +17,13 @@ using System.Collections.Specialized;
 using FlightSimulatorApp.UserPanel;
 using FlightSimulatorApp.UserPanel.Connection;
 
-namespace FlightSimulatorApp.UserPanel.Connection {
+namespace FlightSimulatorApp.UserPanel.Connection
+{
     /// <summary>
     /// Interaction logic for ConnectionPanel.xaml
     /// </summary>
-    public partial class ConnectionPanel : UserControl {
+    public partial class ConnectionPanel : UserControl
+    {
 
         private IConnectionPanelVM vm;
 
@@ -30,7 +32,8 @@ namespace FlightSimulatorApp.UserPanel.Connection {
         /// gets the vm and thus needs to be initialized in the code and not in the xaml.
         /// </summary>
         /// <param name="vm"> the View's VM </param>
-        public ConnectionPanel(IConnectionPanelVM viewModel) {
+        public ConnectionPanel(IConnectionPanelVM viewModel)
+        {
             InitializeComponent();
             this.vm = viewModel;
             DataContext = vm;
@@ -39,14 +42,16 @@ namespace FlightSimulatorApp.UserPanel.Connection {
         /// <summary>
         /// handle event of connect button click
         /// </summary>
-        private void Connect_Click(object sender, RoutedEventArgs e) {
-            this.vm.Connect();
+        private void Connect_Click(object sender,RoutedEventArgs e)
+        {
+            this.vm.ConnectAndStart();
         }
 
         /// <summary>
         /// handle event of disconnect button click
         /// </summary>
-        private void Disconnect_Click(object sender, RoutedEventArgs e) {
+        private void Disconnect_Click(object sender,RoutedEventArgs e)
+        {
             this.vm.Disconnect();
         }
     }

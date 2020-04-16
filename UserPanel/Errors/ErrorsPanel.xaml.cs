@@ -14,11 +14,13 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using FlightSimulatorApp.UserPanel.Errors;
 
-namespace FlightSimulatorApp.UserPanel.Errors {
+namespace FlightSimulatorApp.UserPanel.Errors
+{
     /// <summary>
     /// Interaction logic for ErrorsPanel.xaml
     /// </summary>
-    public partial class ErrorsPanel : UserControl {
+    public partial class ErrorsPanel : UserControl
+    {
         private IErrorsPanelMessager vm;
 
         /// <summary>
@@ -26,7 +28,8 @@ namespace FlightSimulatorApp.UserPanel.Errors {
         /// gets the vm and thus needs to be initialized in the code and not in the xaml.
         /// </summary>
         /// <param name="vm"> the View's VM </param>
-        public ErrorsPanel(IErrorsPanelMessager vm) {
+        public ErrorsPanel(IErrorsPanelMessager vm)
+        {
             InitializeComponent();
             this.vm = vm;
             DataContext = vm;
