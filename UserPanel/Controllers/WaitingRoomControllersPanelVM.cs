@@ -7,6 +7,9 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace FlightSimulatorApp.UserPanel.Controllers {
+    /// <summary>
+    /// this class implements the waiting room mechanic that limits the number of set commands sent in a second.
+    /// </summary>
     public class WaitingRoomControllersPanelVM : ControllersPanelVM, IWaitingRoomControllersPanelVM {
         private IDictionary<string, bool> isInWaitingRoom;
         private static int maxNumberOfVarUpdatesPerSecond = 10;

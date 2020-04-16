@@ -12,8 +12,8 @@ namespace FlightSimulatorApp.UserPanel.Controllers {
     /// </summary>
     public interface IControllersPanelVM {
         double Throttle { set; }
-        double Elevator { set; }
-        double Rudder { set; }
+        double Elevator { get; set; }
+        double Rudder { get; set; }
         double Aileron { set; }
         /// <summary>
         /// call this function in the properties' setters to allow polymorphism.

@@ -28,14 +28,27 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <StackPanel Orientation="Horizontal" Grid.Column="0" Margin="5,5,5,5">
-                <TextBlock Text="Rudder (X): " TextAlignment="Center"/>
-                <TextBlock Text="Val" TextAlignment="Center"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Grid.Column="1" Margin="5,5,5,5">
-                <TextBlock Text="Elevator (Y): " TextAlignment="Center"/>
-                <TextBlock Text="Val" TextAlignment="Center"/>
-            </StackPanel>
+            <!-- the X value -->
+            <Grid Grid.Column="0" Margin="5,5,5,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Rudder (X): " TextAlignment="Center" Grid.Column="0"/>
+                <TextBlock Text="{Binding Rudder}" TextAlignment="Left" Grid.Column="1"/>
+            </Grid>
+
+            <!-- the Y value -->
+            <Grid Grid.Column="1" Margin="5,5,5,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Elevator (Y): " TextAlignment="Center" Grid.Column="0"/>
+                <TextBlock Text="{Binding Elevator}" TextAlignment="Left" Grid.Column="1"/>
+            </Grid>
         </Grid>
         <!-- Joystick -->
         <local:Joystick x:Name="joyStickPanel" Grid.Row="1" 
@@ -43,6 +56,7 @@
         <!-- Slider 1 -->
         <StackPanel x:Name="FirstSliderBlock" Orientation="Vertical" Grid.Row="2">
             <StackPanel Orientation="Horizontal">
+                <!-- show the slider's value -->
                 <TextBlock Text="Throttle: " TextAlignment="Center"/>
                 <TextBlock x:Name="ThrottleSliderValue" Text="{Binding ElementName=ThrottleSlider, Path=Value}" TextAlignment="Center"/>
             </StackPanel>
@@ -51,6 +65,7 @@
         <!-- Slider 2 -->
         <StackPanel x:Name="SecondSliderBlock" Orientation="Vertical" Grid.Row="3">
             <StackPanel Orientation="Horizontal">
+                <!-- show the slider's value -->
                 <TextBlock Text="Aileron: " TextAlignment="Center"/>
                 <TextBlock x:Name="AileronSliderValue" Text="{Binding ElementName=AileronSlider, Path=Value}" TextAlignment="Center"/>
             </StackPanel>

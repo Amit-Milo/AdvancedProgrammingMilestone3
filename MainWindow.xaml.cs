@@ -32,23 +32,25 @@ namespace FlightSimulatorApp {
             m.Connect("127.0.0.1", 5402);
             m.Start();
 
-            IDashboardViewModel vm1 = new DashboardViewModel(m);
+            
 
-            DashboardView dashboard = new DashboardView(vm1);
-
-            //add the dashboard to the grid on column 1
             UserMainPanel userMainPanel = new UserMainPanel(m);
             this.RegisterName("userPanel", userMainPanel);
             mainGrid.Children.Add(userMainPanel);
             Grid.SetColumn(userMainPanel, 1);
             Grid.SetRow(userMainPanel, 1);
+
+
+
+            IDashboardViewModel vm1 = new DashboardViewModel(m);
+            DashboardView dashboard = new DashboardView(vm1);
+            dashboard.Width = userMainPanel.Width;
             mainGrid.Children.Add(dashboard);
             Grid.SetColumn(dashboard, 1);
 
 
             IMapViewModel vm2 = new MapViewModel(m);
             MapView map = new MapView(vm2);
-
             mainGrid.Children.Add(map);
             Grid.SetRowSpan(map, 2);
         }
