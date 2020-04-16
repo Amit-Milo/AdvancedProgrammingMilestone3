@@ -30,18 +30,10 @@ namespace FlightSimulatorApp.UserPanel.Controllers {
             DataContext = vm;
         }
 
-        /// <summary>
-        /// called at an event of mouse up at any place on the screen from the MainWindow.
-        /// should call the joystick's method to handle this event.
-        /// </summary>
         public void HandleJoystickMouseUp(object sender, MouseButtonEventArgs e) {
             (this.FindName("joyStickPanel") as Joystick).HandleJoystickMouseUp(sender, e);
         }
 
-        /// <summary>
-        /// called at an event of mouse move at any place on the screen from the MainWindow.
-        /// should call the joystick's method to handle this event.
-        /// </summary>
         public void HandleJoystickMouseMove(object sender, MouseEventArgs e) {
             (this.FindName("joyStickPanel") as Joystick).HandleJoystickMouseMove(sender, e);
         }

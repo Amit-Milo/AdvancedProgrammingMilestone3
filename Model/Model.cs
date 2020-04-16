@@ -32,7 +32,7 @@ namespace FlightSimulatorApp.Model {
         /// </summary>
         public event ErrorNotification ErrorOccurred;
         /// <summary>
-        /// Should be false as long as the connection with the simulator is active.
+        /// Should be false as long as the connection with the simuator is active.
         /// </summary>
         volatile bool stop = true;
         /// <summary>
@@ -40,8 +40,14 @@ namespace FlightSimulatorApp.Model {
         /// </summary>
         private Mutex socketMutex = new Mutex();
 
-
+        /// <summary>
+        /// Handle access to a thread's common resource - the stop variable.
+        /// </summary>
         private Mutex stopMutex = new Mutex();
+
+
+        private static readonly int samplingRate = 250;
+
 
         /// <summary>
         /// A constructor
@@ -112,7 +118,6 @@ namespace FlightSimulatorApp.Model {
              * but stop stays false.*/
             stopMutex.WaitOne(0);
             stop = false;
-            this.Start();
             stopMutex.ReleaseMutex();
         }
 
@@ -146,7 +151,7 @@ namespace FlightSimulatorApp.Model {
                         //update the vars dictionary to the simulator values
                         this.vars[varName].VarValue = this.GetFGVarValue(varName);
                     }
-                    Thread.Sleep(250);
+                    Thread.Sleep(samplingRate);
                 }
             }
             ).Start();
@@ -227,7 +232,7 @@ namespace FlightSimulatorApp.Model {
             try {
                 result = Double.Parse(returnValue);
             } catch (Exception) {
-                ErrorOccurred?.Invoke(this, "error: simulator sent unexpected value for var name: " + varName+", the value is: "+returnValue);
+                ErrorOccurred?.Invoke(this, "error: simulator sent unexpected value for var name: " + varName);
                 // return the current value
                 return this.vars[varName].VarValue;
             }

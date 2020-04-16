@@ -1,6 +1,6 @@
 ﻿using FlightSimulatorApp.Model;
 using FlightSimulatorApp.Dashboard;
-using FlightSimulator.Map;
+using FlightSimulatorApp.Map;
 using FlightSimulatorApp.UserPanel.Errors;
 using FlightSimulatorApp.UserPanel;
 
@@ -19,6 +19,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using FlightSimulator;
 
 namespace FlightSimulatorApp
 {
@@ -30,30 +31,23 @@ namespace FlightSimulatorApp
         public MainWindow()
         {
             InitializeComponent();
-            ITelnetClient client = new TelnetClient();
-            IFlightGearCommunicator m = new Model.Model(client);
-            m.Connect("127.0.0.1", 5402);
-            m.Start();
 
-            IDashboardViewModel vm1 = new DashboardViewModel(m);
+            var app = Application.Current as App;
 
-            DashboardView dashboard = new DashboardView(vm1);
+            DashboardView dashboard = new DashboardView(app.dashboardViewModel);
+            MapView map = new MapView(app.mapViewModel);
+            UserMainPanel userMainPanel = app.mainPanel;
 
-            //add the dashboard to the grid on column 1
-            UserMainPanel userMainPanel = new UserMainPanel(m);
             this.RegisterName("userPanel", userMainPanel);
+
+            mainGrid.Children.Add(dashboard);
+            mainGrid.Children.Add(map);
             mainGrid.Children.Add(userMainPanel);
+
+            Grid.SetColumn(dashboard, 1);
+            Grid.SetRowSpan(map, 2);
             Grid.SetColumn(userMainPanel, 1);
             Grid.SetRow(userMainPanel, 1);
-            mainGrid.Children.Add(dashboard);
-            Grid.SetColumn(dashboard, 1);
-
-
-            IMapViewModel vm2 = new MapViewModel(m);
-            MapView map = new MapView(vm2);
-
-            mainGrid.Children.Add(map);
-            Grid.SetRowSpan(map, 2);
         }
 
         private void Window_MouseUp(object sender, MouseButtonEventArgs e)

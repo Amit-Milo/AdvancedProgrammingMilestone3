@@ -10,7 +10,7 @@ using Microsoft.Maps.MapControl.WPF;
 
 using FlightSimulatorApp.Model; 
 
-namespace FlightSimulator.Map
+namespace FlightSimulatorApp.Map
 {
     public class MapViewModel : IMapViewModel
     {
@@ -20,7 +20,7 @@ namespace FlightSimulator.Map
         private Location lastLocation = new Location(0, 0);
 
 
-        // A dictionary mapping each property name to the full variable name as saved at the server.
+        // A dictionary mapping each propery name to the full variable name as saved at the server.
         private static readonly Dictionary<string, string> properties = new Dictionary<string, string>
         {
             { latitudeName, "Latitude" },
@@ -55,7 +55,7 @@ namespace FlightSimulator.Map
 
 
         /// <summary>
-        /// A property in charge of notifying of position change.
+        /// A propery in charge of notifying of position change.
         /// Notify only when both longitude and latitude are up-to-date.
         /// </summary>
         private byte positionUpdate;
@@ -67,7 +67,7 @@ namespace FlightSimulator.Map
                 positionUpdate |= value;
 
                 // Check if both properties are up to date.
-                if ((positionUpdate & 0x3) == 0x3)
+                if ((positionUpdate & 0x3) == 0x3 && !this.Position.Equals(lastLocation))
                 {
                     // Reset poritionUpdate var.
                     positionUpdate = 0x0;
