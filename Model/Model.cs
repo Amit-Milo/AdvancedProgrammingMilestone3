@@ -32,7 +32,7 @@ namespace FlightSimulatorApp.Model {
         /// </summary>
         public event ErrorNotification ErrorOccurred;
         /// <summary>
-        /// Should be false as long as the connection with the simuator is active.
+        /// Should be false as long as the connection with the simulator is active.
         /// </summary>
         volatile bool stop = true;
         /// <summary>
@@ -42,7 +42,6 @@ namespace FlightSimulatorApp.Model {
 
 
         private Mutex stopMutex = new Mutex();
-
 
         /// <summary>
         /// A constructor
@@ -228,7 +227,7 @@ namespace FlightSimulatorApp.Model {
             try {
                 result = Double.Parse(returnValue);
             } catch (Exception) {
-                ErrorOccurred?.Invoke(this, "error: simulator sent unexpected value for var name: " + varName);
+                ErrorOccurred?.Invoke(this, "error: simulator sent unexpected value for var name: " + varName+", the value is: "+returnValue);
                 // return the current value
                 return this.vars[varName].VarValue;
             }

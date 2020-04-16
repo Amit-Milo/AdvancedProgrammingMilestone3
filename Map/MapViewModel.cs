@@ -20,7 +20,7 @@ namespace FlightSimulator.Map
         private Location lastLocation = new Location(0, 0);
 
 
-        // A dictionary mapping each propery name to the full variable name as saved at the server.
+        // A dictionary mapping each property name to the full variable name as saved at the server.
         private static readonly Dictionary<string, string> properties = new Dictionary<string, string>
         {
             { latitudeName, "Latitude" },
@@ -55,7 +55,7 @@ namespace FlightSimulator.Map
 
 
         /// <summary>
-        /// A propery in charge of notifying of position change.
+        /// A property in charge of notifying of position change.
         /// Notify only when both longitude and latitude are up-to-date.
         /// </summary>
         private byte positionUpdate;

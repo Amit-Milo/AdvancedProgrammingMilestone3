@@ -36,10 +36,16 @@ namespace FlightSimulatorApp.UserPanel.Connection {
             DataContext = vm;
         }
 
+        /// <summary>
+        /// handle event of connect button click
+        /// </summary>
         private void Connect_Click(object sender, RoutedEventArgs e) {
             this.vm.Connect();
         }
 
+        /// <summary>
+        /// handle event of disconnect button click
+        /// </summary>
         private void Disconnect_Click(object sender, RoutedEventArgs e) {
             this.vm.Disconnect();
         }

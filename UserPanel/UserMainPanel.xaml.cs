@@ -54,10 +54,20 @@ namespace FlightSimulatorApp.UserPanel {
             Grid.SetRow(errorsPanel, 2);
         }
 
+        /// <summary>
+        /// a mouse up event happened. forward it to the joystick. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void HandleJoystickMouseUp(object sender, MouseButtonEventArgs e) {
             (this.FindName("controllersPanel") as ControllersPanel).HandleJoystickMouseUp(sender, e);
         }
-        
+
+        /// <summary>
+        /// a mouse move event happened. forward it to the joystick.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void HandleJoystickMouseMove(object sender, MouseEventArgs e) {
             (this.FindName("controllersPanel") as ControllersPanel).HandleJoystickMouseMove(sender, e);
         }
