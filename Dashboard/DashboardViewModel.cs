@@ -9,7 +9,6 @@ using FlightSimulatorApp.Model;
 
 namespace FlightSimulatorApp.Dashboard
 {
-    
     public class DashboardViewModel : IDashboardViewModel
     {
         // Save the full names of the variables as used in the simulator.
@@ -23,7 +22,7 @@ namespace FlightSimulatorApp.Dashboard
         private static readonly string altimeterAltitudeName = "/instrumentation/altimeter/indicated-altitude-ft";
 
         // A dictionary mapping each propery name to the full variable name as saved at the server.
-        private static readonly Dictionary<string, string> properties = new Dictionary<string, string>
+        private static readonly Dictionary<string,string> properties = new Dictionary<string,string>
         {
             { headingDegName, "HeadingDeg" },
             { verticalSpeedName, "VerticalSpeed" },
@@ -54,7 +53,8 @@ namespace FlightSimulatorApp.Dashboard
             string keyName = properties.FirstOrDefault(x => x.Value == key).Key;
             try
             {
-                return this.model.GetVarValue(keyName);
+            // TODO
+                return Math.Round(this.model.GetVarValue(keyName),numberOfDigsToShow);
             }
             catch (Exception)
             {
@@ -70,7 +70,7 @@ namespace FlightSimulatorApp.Dashboard
         private void NotifyPropertyChanged(string property)
         {
             if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(property));
+                PropertyChanged(this,new PropertyChangedEventArgs(property));
         }
 
 

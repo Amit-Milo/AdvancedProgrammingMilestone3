@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlightSimulatorApp.UserPanel.Errors {
+namespace FlightSimulatorApp.UserPanel.Errors
+{
     /// <summary>
     /// This interface takes care of handling errors.
     /// </summary>
-    public interface IErrorHandler {
+    public interface IErrorHandler
+    {
         /// <summary>
         /// Handle the given error.
         /// </summary>

@@ -1,12 +1,16 @@
-﻿using System;
+﻿using FlightSimulatorApp.UserPanel.Errors;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlightSimulatorApp.Model {
-    public interface IFlightGearCommunicator : INotifyPropertyChanged, INotifyError {
+
+namespace FlightSimulatorApp.Model
+{
+    public interface IFlightGearCommunicator : INotifyPropertyChanged, INotifyError
+    {
         /// <summary>
         /// Init the connection with the simulator.
         /// </summary>
@@ -34,6 +38,14 @@ namespace FlightSimulatorApp.Model {
         /// <returns> the simulator's value fo the input variable </returns>
         double GetVarValue(string varName);
 
+
         void AddReceiveableVar(string varName, bool updateOnlyOnChange = true);
+
+        /// <summary>
+        /// notify the Errors panel about the new error that has occurred.
+        /// </summary>
+        /// <param name="errorMessage"> the error message to send </param>
+        /// <param name="additionalInfo"> more info if needed </param>
+        void NotifyError(ErrorMessages.errorsEnum errorMessage,string additionalInfo="");
     }
 }

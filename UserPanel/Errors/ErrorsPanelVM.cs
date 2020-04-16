@@ -7,12 +7,14 @@ using FlightSimulatorApp.Model;
 using System.Globalization;
 using System.ComponentModel;
 
-namespace FlightSimulatorApp.UserPanel.Errors {
+namespace FlightSimulatorApp.UserPanel.Errors
+{
     /// <summary>
     /// An implementation of the Errors panel vm.
     /// this implementation takes the latest error and prints it to the screen for a certain number of seconds.
     /// </summary>
-    public class ErrorsPanelVM : IErrorsPanelMessager {
+    public class ErrorsPanelVM : IErrorsPanelMessager
+    {
         /// <summary>
         /// the model that we use in the vm.
         /// </summary>
@@ -26,13 +28,16 @@ namespace FlightSimulatorApp.UserPanel.Errors {
         /// </summary>
         private DateTime lastErrorTime;
         private string errorMessage;
-        public string ErrorMessage {
-            get {
+        public string ErrorMessage
+        {
+            get
+            {
                 return errorMessage;
             }
-            set {
+            set
+            {
                 errorMessage = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("ErrorMessage"));
+                PropertyChanged?.Invoke(this,new PropertyChangedEventArgs("ErrorMessage"));
             }
         }
 
@@ -41,10 +46,12 @@ namespace FlightSimulatorApp.UserPanel.Errors {
         /// and set the current error to empty.
         /// </summary>
         /// <param name="model"> the VM's model </param>
-        public ErrorsPanelVM(IFlightGearCommunicator model, double errorMessageShowingTimeSeconds) {
+        public ErrorsPanelVM(IFlightGearCommunicator model,double errorMessageShowingTimeSeconds)
+        {
             this.model = model;
             model.ErrorOccurred +=
-                delegate (object sender, string error) {
+                delegate (object sender,string error)
+                {
                     this.HandleError(error);
                 };
             ErrorMessage = "";
@@ -55,7 +62,7 @@ namespace FlightSimulatorApp.UserPanel.Errors {
         /// default constructor with 10 seconds error displaying time. 
         /// </summary>
         /// <param name="model"> the VM's model </param>
-        public ErrorsPanelVM(IFlightGearCommunicator model) : this(model, 10) { }
+        public ErrorsPanelVM(IFlightGearCommunicator model) : this(model,10) { }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -68,14 +75,17 @@ namespace FlightSimulatorApp.UserPanel.Errors {
         /// if it is indeed the input error, erase it.
         /// </summary>
         /// <param name="error"> the error message to show </param>
-        public void HandleError(string error) {
+        public void HandleError(string error)
+        {
             DateTime currTime = DateTime.Now;
             this.ErrorMessage = error + "  " + currTime.ToLongTimeString();
             this.lastErrorTime = currTime;
-            new Thread(delegate () {
+            new Thread(delegate ()
+            {
                 System.Threading.Thread.Sleep((int)(1000 * errorMessageShowingTimeSeconds));
                 //if the last error message is this one:
-                if (this.lastErrorTime == currTime) {
+                if (this.lastErrorTime == currTime)
+                {
                     ErrorMessage = "";
                 }
             }).Start();

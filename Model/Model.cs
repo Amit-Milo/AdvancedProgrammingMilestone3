@@ -7,13 +7,16 @@ using System.Text;
 using System.Threading;
 using System.Diagnostics;
 using System.ComponentModel;
+using FlightSimulatorApp.UserPanel.Errors;
 
-namespace FlightSimulatorApp.Model {
+namespace FlightSimulatorApp.Model
+{
     /// <summary>
     /// This class is the model in the MVVM architecture. 
     /// This class takes care of communicating with the simulator and calculating the map that should be displayed on the screen. 
     /// </summary>
-    public class Model : IFlightGearCommunicator {
+    public class Model : IFlightGearCommunicator
+    {
         /// <summary>
         /// The class that communicates with the simulator, delegate all functions to this class.
         /// </summary>
@@ -32,7 +35,7 @@ namespace FlightSimulatorApp.Model {
         /// </summary>
         public event ErrorNotification ErrorOccurred;
         /// <summary>
-        /// Should be false as long as the connection with the simuator is active.
+        /// Should be false as long as the connection with the simulator is active.
         /// </summary>
         volatile bool stop = true;
         /// <summary>
@@ -47,7 +50,6 @@ namespace FlightSimulatorApp.Model {
 
 
         private static readonly int samplingRate = 250;
-
 
         /// <summary>
         /// A constructor
@@ -64,7 +66,7 @@ namespace FlightSimulatorApp.Model {
         /// Add a receivable variable to the model dictionary.
         /// </summary>
         /// <param name="varName"> The name ofthe variable to add. </param>
-        public void AddReceiveableVar (string varName, bool updateOnlyOnChange = true)
+        public void AddReceiveableVar(string varName, bool updateOnlyOnChange = true)
         {
             double DEFAULT_VALUE = 0;
 
@@ -90,7 +92,8 @@ namespace FlightSimulatorApp.Model {
         /// </summary>
         /// <param name="ip">The server's ip.</param>
         /// <param name="port"> The server's port. </param>
-        public void Connect(string ip, int port) {
+        public void Connect(string ip, int port)
+        {
             try
             {
                 this.telnetClient.Disconnect();
@@ -125,7 +128,8 @@ namespace FlightSimulatorApp.Model {
         /// <summary>
         /// Disconnect from the server.
         /// </summary>
-        public void Disconnect() {
+        public void Disconnect()
+        {
             stopMutex.WaitOne();
             stop = true;
             stopMutex.ReleaseMutex();
@@ -144,10 +148,14 @@ namespace FlightSimulatorApp.Model {
         }
 
 
-        public void Start() {
-            new Thread(delegate () {
-                while (!stop) {
-                    foreach (string varName in this.vars.Keys) {
+        public void Start()
+        {
+            new Thread(delegate ()
+            {
+                while (!stop)
+                {
+                    foreach (string varName in this.vars.Keys)
+                    {
                         //update the vars dictionary to the simulator values
                         this.vars[varName].VarValue = this.GetFGVarValue(varName);
                     }
@@ -158,7 +166,8 @@ namespace FlightSimulatorApp.Model {
         }
 
 
-        private void SetFGVarValue(string varName, double value) {
+        private void SetFGVarValue(string varName, double value)
+        {
             if (!stop)
             {
                 try
@@ -176,13 +185,14 @@ namespace FlightSimulatorApp.Model {
                 }
                 catch (Exception e)
                 {
-                    ErrorOccurred?.Invoke(this, e.Message);
+                    NotifyError(ErrorMessages.errorsEnum.Other, e.Message);
                 }
             }
         }
 
 
-        private double GetFGVarValue(string varName) {
+        private double GetFGVarValue(string varName)
+        {
             bool available = this.vars.ContainsKey(varName);
 
             double returnVal;
@@ -201,7 +211,7 @@ namespace FlightSimulatorApp.Model {
                 }
                 catch (Exception e)
                 {
-                    ErrorOccurred?.Invoke(this, e.Message);
+                    NotifyError(ErrorMessages.errorsEnum.Other,e.Message);
                 }
 
                 finally
@@ -220,19 +230,24 @@ namespace FlightSimulatorApp.Model {
         /// </summary>
         /// <param name="varName"> the var to get value of incase of ERR return value </param>
         /// <returns> value from the simulator if worked properly, oterhwise the current saved value and error message </returns>
-        private double HandleSimulatorReturn(string varName) {
+        private double HandleSimulatorReturn(string varName)
+        {
             string returnValue = telnetClient.Read();
-            if (returnValue == "ERR" || returnValue == "ERR\n") {
-                ErrorOccurred?.Invoke(this, "error: simulator sent ERR value");
+            if (returnValue == "ERR" || returnValue == "ERR\n")
+            {
+                NotifyError(ErrorMessages.errorsEnum.ERRValue, varName);
                 // return the current value
                 return this.vars[varName].VarValue;
             }
             //now check for any other error value:
             double result;
-            try {
+            try
+            {
                 result = Double.Parse(returnValue);
-            } catch (Exception) {
-                ErrorOccurred?.Invoke(this, "error: simulator sent unexpected value for var name: " + varName);
+            }
+            catch (Exception)
+            {
+                NotifyError(ErrorMessages.errorsEnum.InvalidValue, returnValue + " for var " + varName);
                 // return the current value
                 return this.vars[varName].VarValue;
             }
@@ -266,8 +281,12 @@ namespace FlightSimulatorApp.Model {
                 this.vars[varName].VarValue = value;
             }
 
-            this.SetFGVarValue(varName, value);
+            this.SetFGVarValue(varName,value);
         }
 
+        public void NotifyError(ErrorMessages.errorsEnum errorMessage,string additionalInfo = "")
+        {
+            ErrorOccurred?.Invoke(this, ErrorMessages.GetErrorMessage(errorMessage) + additionalInfo);
+        }
     }
 }
