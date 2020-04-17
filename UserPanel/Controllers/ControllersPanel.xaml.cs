@@ -38,8 +38,18 @@ namespace FlightSimulatorApp.UserPanel.Controllers
             this.vm.DisconnectionOccurred +=
                 delegate ()
                 {
-                    ThrottleSlider.Value = 0;
-                    AileronSlider.Value = 0;
+                    try
+                    {
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            ThrottleSlider.Value = 0;
+                            AileronSlider.Value = 0;
+                        });
+                    }
+                    catch
+                    {
+
+                    }
                 };
         }
 

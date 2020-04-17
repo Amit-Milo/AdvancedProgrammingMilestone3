@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,6 +28,23 @@ namespace FlightSimulatorApp.Map
             InitializeComponent();
 
             DataContext = viewModel;
+
+            viewModel.PropertyChanged +=
+                delegate (object sender, PropertyChangedEventArgs e)
+                {
+                    try
+                    {
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            double a = 5.8, b = 1.3;
+                            if (e.PropertyName == "Velocity")
+                                map.SetView(viewModel.Position, a - b * Math.Log(viewModel.Velocity));
+                        });
+                    }
+                    catch
+                    {
+                    }
+                };
         }
     }
 }

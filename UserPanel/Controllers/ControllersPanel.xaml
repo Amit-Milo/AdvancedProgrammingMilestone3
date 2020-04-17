@@ -22,7 +22,7 @@
         <Rectangle Fill="White" Grid.RowSpan="6"/>
 
         <!-- X,Y values -->
-        <Grid x:Name="JoystickValues">
+        <Grid x:Name="JoystickValues" Background="DarkSlateGray">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -50,9 +50,9 @@
         </Grid>
         <!-- Joystick -->
         <local:Joystick x:Name="joyStickPanel" Grid.Row="1" 
-                        NormalizedKnobX="{Binding Rudder, Mode=OneWayToSource}" NormalizedKnobY="{Binding Elevator, Mode=OneWayToSource}"/>
+                        NormalizedKnobX="{Binding Rudder, Mode=OneWayToSource}" NormalizedKnobY="{Binding Elevator, Mode=OneWayToSource}" Background="DarkSlateGray"/>
         <!-- Slider 1 -->
-        <StackPanel x:Name="FirstSliderBlock" Orientation="Vertical" Grid.Row="2">
+        <StackPanel x:Name="FirstSliderBlock" Orientation="Vertical" Grid.Row="2" Background="DarkSlateGray">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Throttle: " TextAlignment="Center"/>
                 <TextBlock x:Name="ThrottleSliderValue" Text="{Binding ElementName=ThrottleSlider, Path=Value}" TextAlignment="Center"/>
@@ -60,7 +60,7 @@
             <Slider x:Name="ThrottleSlider" Minimum="0" Maximum="1" Value="{Binding Throttle, Mode=TwoWay}" PreviewMouseUp="NotifyMouseUp"/>
         </StackPanel>
         <!-- Slider 2 -->
-        <StackPanel x:Name="SecondSliderBlock" Orientation="Vertical" Grid.Row="3">
+        <StackPanel x:Name="SecondSliderBlock" Orientation="Vertical" Grid.Row="3" Background="DarkSlateGray">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Aileron: " TextAlignment="Center"/>
                 <TextBlock x:Name="AileronSliderValue" Text="{Binding ElementName=AileronSlider, Path=Value}" TextAlignment="Center"/>

@@ -32,7 +32,7 @@ namespace FlightSimulator
         {
             ITelnetClient telnetClient = new TelnetClient();
 
-            model = new Model(telnetClient);
+            model = new FlightGearCommunicator(telnetClient);
             model.Connect(ConfigurationManager.AppSettings.Get("DEFAULT_IP"), int.Parse(ConfigurationManager.AppSettings.Get("DEFAULT_PORT")));
             model.Start();
 
@@ -46,7 +46,14 @@ namespace FlightSimulator
 
         private void Application_Exit(object sender, ExitEventArgs e)
         {
-            this.model.Disconnect();
+            try
+            {
+                this.model.Disconnect();
+            }
+            catch
+            {
+
+            }
         }
     }
 }
