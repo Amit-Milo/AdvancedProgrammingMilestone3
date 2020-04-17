@@ -12,13 +12,37 @@ namespace FlightSimulatorApp.Dashboard
         /// <summary>
         /// Properties associated with the dashboard.
         /// </summary>
-        double HeadingDeg { get; }
-        double VerticalSpeed { get; }
-        double GroundSpeed { get; }
-        double AirSpeed { get; }
-        double GpsAltitude { get; }
-        double InternalRoll { get; }
-        double InternalPitch { get; }
-        double AltimeterAltitude { get; }
+        double HeadingDeg
+        {
+            get;
+        }
+        double VerticalSpeed
+        {
+            get;
+        }
+        double GroundSpeed
+        {
+            get;
+        }
+        double AirSpeed
+        {
+            get;
+        }
+        double GpsAltitude
+        {
+            get;
+        }
+        double InternalRoll
+        {
+            get;
+        }
+        double InternalPitch
+        {
+            get;
+        }
+        double AltimeterAltitude
+        {
+            get;
+        }
     }
 }

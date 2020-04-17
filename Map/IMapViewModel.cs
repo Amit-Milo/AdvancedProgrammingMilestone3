@@ -11,7 +11,13 @@ namespace FlightSimulatorApp.Map
 {
     public interface IMapViewModel : INotifyPropertyChanged
     {
-        Location Position { get; }
-        double Rotation { get; }
+        Location Position
+        {
+            get;
+        }
+        double Rotation
+        {
+            get;
+        }
     }
 }

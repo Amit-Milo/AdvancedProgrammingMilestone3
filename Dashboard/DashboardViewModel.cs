@@ -20,11 +20,10 @@ namespace FlightSimulatorApp.Dashboard
         private static readonly string internalRollName = "/instrumentation/attitude-indicator/internal-roll-deg";
         private static readonly string internalPitchName = "/instrumentation/attitude-indicator/internal-pitch-deg";
         private static readonly string altimeterAltitudeName = "/instrumentation/altimeter/indicated-altitude-ft";
-
         private const int numberOfDigsToShow = 7;
 
-        // A dictionary mapping each propery name to the full variable name as saved at the server.
-        private static readonly Dictionary<string,string> properties = new Dictionary<string,string>
+        // A dictionary mapping each property name to the full variable name as saved at the server.
+        private static readonly Dictionary<string, string> properties = new Dictionary<string, string>
         {
             { headingDegName, "HeadingDeg" },
             { verticalSpeedName, "VerticalSpeed" },
@@ -38,7 +37,7 @@ namespace FlightSimulatorApp.Dashboard
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        // The odel communicating with the server.
+        // The model communicating with the server.
         private readonly IFlightGearCommunicator model;
 
 
@@ -55,8 +54,22 @@ namespace FlightSimulatorApp.Dashboard
             string keyName = properties.FirstOrDefault(x => x.Value == key).Key;
             try
             {
-            // TODO
-                return Math.Round(this.model.GetVarValue(keyName), numberOfDigsToShow);
+                double varValue = this.model.GetVarValue(keyName);
+                if (varValue > -1 && varValue < 1)
+                {
+                    return Math.Round(varValue, Math.Max(0, numberOfDigsToShow-1));
+                }
+                else
+                {
+                    // Get number of digits to the left of the period.
+                    int numberOfDigitsInVarValueWholePart = (int)(Math.Log10(Math.Abs(varValue)) + 1);
+                    if (varValue < 0)
+                    {
+                        numberOfDigitsInVarValueWholePart -= 1;
+                    }
+                    return Math.Round(varValue, Math.Max(0, numberOfDigsToShow-numberOfDigitsInVarValueWholePart));
+                }
+                
             }
             catch (Exception)
             {
@@ -72,42 +85,66 @@ namespace FlightSimulatorApp.Dashboard
         private void NotifyPropertyChanged(string property)
         {
             if (PropertyChanged != null)
-                PropertyChanged(this,new PropertyChangedEventArgs(property));
+                PropertyChanged(this, new PropertyChangedEventArgs(property));
         }
 
 
         // Properties referencing to the above variables.
         public double HeadingDeg
         {
-            get { return this.GetProperty("HeadingDeg"); }
+            get
+            {
+                return this.GetProperty("HeadingDeg");
+            }
         }
         public double VerticalSpeed
         {
-            get { return this.GetProperty("VerticalSpeed"); }
+            get
+            {
+                return this.GetProperty("VerticalSpeed");
+            }
         }
         public double GroundSpeed
         {
-            get { return this.GetProperty("GroundSpeed"); }
+            get
+            {
+                return this.GetProperty("GroundSpeed");
+            }
         }
         public double AirSpeed
         {
-            get { return this.GetProperty("AirSpeed"); }
+            get
+            {
+                return this.GetProperty("AirSpeed");
+            }
         }
         public double GpsAltitude
         {
-            get { return GetProperty("GpsAltitude"); }
+            get
+            {
+                return GetProperty("GpsAltitude");
+            }
         }
         public double InternalRoll
         {
-            get { return this.GetProperty("InternalRoll"); }
+            get
+            {
+                return this.GetProperty("InternalRoll");
+            }
         }
         public double InternalPitch
         {
-            get { return this.GetProperty("InternalPitch"); }
+            get
+            {
+                return this.GetProperty("InternalPitch");
+            }
         }
         public double AltimeterAltitude
         {
-            get { return this.GetProperty("AltimeterAltitude"); }
+            get
+            {
+                return this.GetProperty("AltimeterAltitude");
+            }
         }
 
 

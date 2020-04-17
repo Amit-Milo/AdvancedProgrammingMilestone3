@@ -27,80 +27,64 @@ namespace FlightSimulatorApp.UserPanel
         static IConnectionPanelVM connectionVM;
         static IErrorsPanelMessager errorsVM;
         static IControllersPanelVM controellsVM;
+
         /// <summary>
-        /// the user panel constructor. 
-        /// the classes it contains need the program's model to be initialized, 
-        /// so this constructor has a model parameter
+        /// The constructor.
+        /// Gets it's components.
         /// </summary>
-        /// <param name="model"> the program's model </param>
-        public UserMainPanel(IFlightGearCommunicator model)
+        /// <param name="controllersPanelVM"></param>
+        /// <param name="connectionPanelVM"></param>
+        /// <param name="errorsPanelVM"></param>
+        public UserMainPanel(IControllersPanelVM controllersPanelVM, IConnectionPanelVM connectionPanelVM, IErrorsPanelMessager errorsPanelVM)
         {
             InitializeComponent();
-
-            //add the controllers panel
-            controellsVM = new WaitingRoomControllersPanelVM(model);
-            ControllersPanel controllersp = new ControllersPanel(controellsVM);
-            this.RegisterName("controllersPanel",controllersp);
-            mainUserPanel.Children.Add(controllersp);
-            Grid.SetRow(controllersp,0);
-
-            //add the connections panel
-            connectionVM = new ConnectionPanelVM(model);
-            ConnectionPanel connectionp = new ConnectionPanel(connectionVM);
-            mainUserPanel.Children.Add(connectionp);
-            Grid.SetRow(connectionp,1);
-
-            //add the errors panel
-            errorsVM = new ErrorsPanelVM(model);
-            ErrorsPanel errorsPanel = new ErrorsPanel(errorsVM);
-            mainUserPanel.Children.Add(errorsPanel);
-            Grid.SetRow(errorsPanel,2);
-        }
-
-
-        public UserMainPanel(IControllersPanelVM controllersPanelVM,IConnectionPanelVM connectionPanelVM,IErrorsPanelMessager errorsPanelVM)
-        {
-            InitializeComponent();
-
-            //add the controllers panel
+            // Add the controllers panel.
             ControllersPanel controllersp = new ControllersPanel(controllersPanelVM);
-            this.RegisterName("controllersPanel",controllersp);
+            controllersp.MouseUpOccurredReleaseJoystick +=
+                delegate (object sender, MouseButtonEventArgs e)
+                {
+                    this.HandleJoystickMouseUp(sender, e);
+                };
+            this.RegisterName("controllersPanel", controllersp);
             mainUserPanel.Children.Add(controllersp);
-            Grid.SetRow(controllersp,0);
+            Grid.SetRow(controllersp, 0);
 
-            //add the connections panel
+            // Add the connections panel.
             ConnectionPanel connectionp = new ConnectionPanel(connectionPanelVM);
+            connectionp.MouseUpOccurredReleaseJoystick +=
+                delegate (object sender, MouseButtonEventArgs e)
+                {
+                    this.HandleJoystickMouseUp(sender, e);
+                };
             mainUserPanel.Children.Add(connectionp);
-            Grid.SetRow(connectionp,1);
+            Grid.SetRow(connectionp, 1);
 
-            //add the errors panel
+            // Add the errors panel.
             ErrorsPanel errorsPanel = new ErrorsPanel(errorsPanelVM);
             mainUserPanel.Children.Add(errorsPanel);
-            Grid.SetRow(errorsPanel,2);
+            Grid.SetRow(errorsPanel, 2);
         }
 
 
         /// <summary>
-        /// a mouse up event happened. forward it to the joystick. 
+        /// A mouse up event happened. forward it to the joystick. 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void HandleJoystickMouseUp(object sender,MouseButtonEventArgs e)
+        public void HandleJoystickMouseUp(object sender, MouseButtonEventArgs e)
         {
-            (this.FindName("controllersPanel") as ControllersPanel).HandleJoystickMouseUp(sender,e);
+            (this.FindName("controllersPanel") as ControllersPanel).HandleJoystickMouseUp(sender, e);
         }
 
         /// <summary>
-        /// a mouse move event happened. forward it to the joystick.
+        /// A mouse move event happened. forward it to the joystick.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void HandleJoystickMouseMove(object sender,MouseEventArgs e)
+        public void HandleJoystickMouseMove(object sender, MouseEventArgs e)
         {
-            (this.FindName("controllersPanel") as ControllersPanel).HandleJoystickMouseMove(sender,e);
+            (this.FindName("controllersPanel") as ControllersPanel).HandleJoystickMouseMove(sender, e);
         }
-
-
 
     }
 }

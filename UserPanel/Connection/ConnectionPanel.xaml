@@ -31,8 +31,8 @@
         <!-- the port textbox -->
         <TextBox x:Name="Port_Entered" Text="{Binding Connection_Port}" Grid.Column="3" Margin="2"/>
         <!-- the connect button -->
-        <Button x:Name="Connect" Content="Connect" Grid.Column="4" Margin="2" Click="Connect_Click"/>
+        <Button x:Name="Connect" Content="Connect" Grid.Column="4" Margin="2" Click="Connect_Click" PreviewMouseUp="NotifyMouseUp"/>
         <!-- the disconnect button -->
-        <Button x:Name="Disconnect" Content="Disconnect" Grid.Column="5" Margin="2" Click="Disconnect_Click" />
+        <Button x:Name="Disconnect" Content="Disconnect" Grid.Column="5" Margin="2" Click="Disconnect_Click" PreviewMouseUp="NotifyMouseUp"/>
     </Grid>
 </UserControl>
