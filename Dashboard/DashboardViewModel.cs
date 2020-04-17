@@ -21,6 +21,8 @@ namespace FlightSimulatorApp.Dashboard
         private static readonly string internalPitchName = "/instrumentation/attitude-indicator/internal-pitch-deg";
         private static readonly string altimeterAltitudeName = "/instrumentation/altimeter/indicated-altitude-ft";
 
+        private const int numberOfDigsToShow = 7;
+
         // A dictionary mapping each propery name to the full variable name as saved at the server.
         private static readonly Dictionary<string,string> properties = new Dictionary<string,string>
         {
@@ -54,7 +56,7 @@ namespace FlightSimulatorApp.Dashboard
             try
             {
             // TODO
-                return Math.Round(this.model.GetVarValue(keyName),numberOfDigsToShow);
+                return Math.Round(this.model.GetVarValue(keyName), numberOfDigsToShow);
             }
             catch (Exception)
             {

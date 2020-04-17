@@ -219,7 +219,7 @@ namespace FlightSimulatorApp.UserPanel.Controllers
         private void SetKnobY(double value)
         {
             this.knobPosition.Y = value;
-            this.NormalizedKnobY = value / (this.Base.RenderSize.Height / 2 - this.KnobBase.Height / 2);
+            this.NormalizedKnobY = -value / (this.Base.RenderSize.Height / 2 - this.KnobBase.Height / 2);
         }
     }
 }

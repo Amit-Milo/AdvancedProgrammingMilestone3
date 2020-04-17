@@ -9,7 +9,9 @@ using System.Windows;
 using FlightSimulatorApp.Dashboard;
 using FlightSimulatorApp.Map;
 using FlightSimulatorApp.Model;
-using FlightSimulatorApp.UserPanel;
+using FlightSimulatorApp.UserPanel.Connection;
+using FlightSimulatorApp.UserPanel.Controllers;
+using FlightSimulatorApp.UserPanel.Errors;
 
 namespace FlightSimulator
 {
@@ -21,7 +23,9 @@ namespace FlightSimulator
         public IFlightGearCommunicator model;
         public IDashboardViewModel dashboardViewModel;
         public IMapViewModel mapViewModel;
-        public UserMainPanel mainPanel;
+        public IConnectionPanelVM connectionVM;
+        public IErrorsPanelMessager errorsVM;
+        public IControllersPanelVM controellsVM;
 
 
         private void Application_Startup(object sender, StartupEventArgs args)
@@ -30,10 +34,14 @@ namespace FlightSimulator
 
             model = new Model(telnetClient);
             model.Connect(ConfigurationManager.AppSettings.Get("DEFAULT_IP"), int.Parse(ConfigurationManager.AppSettings.Get("DEFAULT_PORT")));
+            model.Start();
 
             dashboardViewModel = new DashboardViewModel(model);
             mapViewModel = new MapViewModel(model);
-            mainPanel = new UserMainPanel(model);
+
+            connectionVM = new ConnectionPanelVM(model);
+            errorsVM = new ErrorsPanelVM(model);
+            controellsVM = new ControllersPanelVM(model);
         }
 
         private void Application_Exit(object sender, ExitEventArgs e)
