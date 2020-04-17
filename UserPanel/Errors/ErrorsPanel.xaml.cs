@@ -24,10 +24,10 @@ namespace FlightSimulatorApp.UserPanel.Errors
         private IErrorsPanelMessager vm;
 
         /// <summary>
-        /// constructor for the errors panel view. 
-        /// gets the vm and thus needs to be initialized in the code and not in the xaml.
+        /// Constructor for the errors panel view. 
+        /// Gets the vm and thus needs to be initialized in the code and not in the xaml.
         /// </summary>
-        /// <param name="vm"> the View's VM </param>
+        /// <param name="vm"> The View's VM. </param>
         public ErrorsPanel(IErrorsPanelMessager vm)
         {
             InitializeComponent();

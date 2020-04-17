@@ -6,9 +6,15 @@ using System.Threading.Tasks;
 
 namespace FlightSimulatorApp.UserPanel.Errors
 {
+    /// <summary>
+    /// This class contains the errors notification syntax.
+    /// </summary>
     public class ErrorMessages
     {
 
+        /// <summary>
+        /// The errors possibilities. Use these for a cleaner, clearer and more consistent code.
+        /// </summary>
         public enum errorsEnum
         {
             Other, Unknown,
@@ -19,7 +25,10 @@ namespace FlightSimulatorApp.UserPanel.Errors
 
         }
 
-        private static Dictionary<errorsEnum,string> errorMessages = new Dictionary<errorsEnum,string>
+        /// <summary>
+        /// A mapping between the errors enum and the errors messages.
+        /// </summary>
+        private static Dictionary<errorsEnum, string> errorMessages = new Dictionary<errorsEnum, string>
         {
             {errorsEnum.Other,"" },
             {errorsEnum.Unknown,"" },
@@ -34,7 +43,11 @@ namespace FlightSimulatorApp.UserPanel.Errors
             {errorsEnum.ValueOutsideRange,"got value outside range " }
         };
 
-
+        /// <summary>
+        /// The UI of this class. when a user enters an enum value, it returns the corresponding error message.
+        /// </summary>
+        /// <param name="e"> The error type enum. </param>
+        /// <returns> The error message string of the input enum error. </returns>
         public static string GetErrorMessage(errorsEnum e)
         {
             return errorMessages[e];

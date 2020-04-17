@@ -36,7 +36,7 @@ namespace FlightSimulatorApp
 
             DashboardView dashboard = new DashboardView(app.dashboardViewModel);
             MapView map = new MapView(app.mapViewModel);
-            UserMainPanel userMainPanel = app.mainPanel;
+            UserMainPanel userMainPanel = new UserMainPanel(app.controellsVM, app.connectionVM, app.errorsVM);
 
             this.RegisterName("userPanel", userMainPanel);
 

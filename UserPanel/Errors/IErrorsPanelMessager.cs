@@ -13,8 +13,11 @@ namespace FlightSimulatorApp.UserPanel.Errors
     public interface IErrorsPanelMessager : IErrorHandler, INotifyPropertyChanged
     {
         /// <summary>
-        /// the error message to be displayed on the screen.
+        /// The error message to be displayed on the screen.
         /// </summary>
-        string ErrorMessage { get; set; }
+        string ErrorMessage
+        {
+            get; set;
+        }
     }
 }

@@ -29,12 +29,12 @@ namespace FlightSimulatorApp.Model
         /// <summary>
         /// Connect to a specifiec host.
         /// </summary>
-        /// <param name="ip"> The host's ip </param>
-        /// <param name="port"> The hosts port </param>
-        public void Connect(string ip,int port)
+        /// <param name="ip"> The host's ip. </param>
+        /// <param name="port"> The hosts port. </param>
+        public void Connect(string ip, int port)
         {
             // Instantiate the tcp client.
-            client = new TcpClient(ip,port)
+            client = new TcpClient(ip, port)
             {
                 // Set time out values.
                 ReceiveTimeout = 10000,
@@ -118,7 +118,7 @@ namespace FlightSimulatorApp.Model
         /// <summary>
         /// Send a message to the host.
         /// </summary>
-        /// <param name="sendMessage"> The message to send </param>
+        /// <param name="sendMessage"> The message to send. </param>
         public void Write(string sendMessage)
         {
             if (client == null)
@@ -130,7 +130,7 @@ namespace FlightSimulatorApp.Model
 
             // Add a '\n' to the end of the message if there is no \n there. 
             if (sendMessage[sendMessage.Length - 1] != '\n')
-            { //all messages should end with a '\n'
+            { // All messages should end with a '\n'.
                 sendMessage += '\n';
             }
 
@@ -145,13 +145,13 @@ namespace FlightSimulatorApp.Model
             {
                 // Try to write to the host.
                 stopWatch.Start();
-                stream.Write(sendData,0,sendData.Length);
+                stream.Write(sendData, 0, sendData.Length);
                 stopWatch.Stop();
                 stopWatch.Reset();
             }
             catch (IOException)
             {
-                // Mesure delay time and create appropriate exception.
+                // Measure delay time and create appropriate exception.
                 stopWatch.Stop();
                 IOException iOException = new IOException(String.Format("Server didn't respond after {0} seconds.",
                     stopWatch.ElapsedMilliseconds / 1000));
@@ -159,7 +159,7 @@ namespace FlightSimulatorApp.Model
                 // Reset the total delay time.
                 stopWatch.Reset();
 
-                //Increase timeout cases.
+                // Increase timeout cases.
                 timesOutLately++;
 
                 // Throw the above exception.
