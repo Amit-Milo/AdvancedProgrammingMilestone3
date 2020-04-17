@@ -57,7 +57,7 @@
                 <TextBlock Text="Throttle: " TextAlignment="Center"/>
                 <TextBlock x:Name="ThrottleSliderValue" Text="{Binding ElementName=ThrottleSlider, Path=Value}" TextAlignment="Center"/>
             </StackPanel>
-            <Slider x:Name="ThrottleSlider" Minimum="0" Maximum="1" Value="{Binding Throttle}"/>
+            <Slider x:Name="ThrottleSlider" Minimum="0" Maximum="1" Value="{Binding Throttle, Mode=TwoWay}" PreviewMouseUp="NotifyMouseUp"/>
         </StackPanel>
         <!-- Slider 2 -->
         <StackPanel x:Name="SecondSliderBlock" Orientation="Vertical" Grid.Row="3">
@@ -65,7 +65,7 @@
                 <TextBlock Text="Aileron: " TextAlignment="Center"/>
                 <TextBlock x:Name="AileronSliderValue" Text="{Binding ElementName=AileronSlider, Path=Value}" TextAlignment="Center"/>
             </StackPanel>
-            <Slider x:Name="AileronSlider" Minimum="-1" Maximum="1" Value="{Binding Aileron}"/>
+            <Slider x:Name="AileronSlider" Minimum="-1" Maximum="1" Value="{Binding Aileron, Mode=TwoWay}" PreviewMouseUp="NotifyMouseUp"/>
         </StackPanel>
     </Grid>
 </UserControl>

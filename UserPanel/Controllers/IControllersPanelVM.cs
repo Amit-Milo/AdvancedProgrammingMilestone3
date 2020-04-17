@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FlightSimulatorApp.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,24 +12,37 @@ namespace FlightSimulatorApp.UserPanel.Controllers
     /// This interface holds the 4 properties that the controllers panel is responsible for,
     /// and should be able to send the simulator a command to change one of the properties' values.
     /// </summary>
-    public interface IControllersPanelVM
+    public interface IControllersPanelVM : INotifyDisconnectionOccurred
     {
-        double Throttle { set; }
-        double Elevator { get; set; }
-        double Rudder { get; set; }
-        double Aileron { set; }
+
+        double Elevator
+        {
+            get; set;
+        }
+        double Rudder
+        {
+            get; set;
+        }
+        double Throttle
+        {
+            get; set;
+        }
+        double Aileron
+        {
+            get; set;
+        }
         /// <summary>
-        /// call this function in the properties' setters to allow polymorphism.
+        /// Call this function in the properties' setters to allow polymorphism.
         /// </summary>
-        /// <param name="varPath"> the name of the var to change </param>
-        /// <param name="varValue"> the new value of the var </param>
-        void HandleFGVarSet(string varPath,double varValue);
+        /// <param name="varPath"> The name of the var to change. </param>
+        /// <param name="varValue"> The new value of the var. </param>
+        void HandleFGVarSet(string varPath, double varValue);
         /// <summary>
-        /// send the simulator a message to set the input var to the input value
+        /// Send the simulator a message to set the input var to the input value.
         /// </summary>
-        /// <param name="varPath"> the name of the var to change </param>
-        /// <param name="varValue"> the new value of the var </param>
-        void SetFGVarValue(string varPath,double varValue);
+        /// <param name="varPath"> The name of the var to change. </param>
+        /// <param name="varValue"> The new value of the var. </param>
+        void SetFGVarValue(string varPath, double varValue);
 
     }
 }

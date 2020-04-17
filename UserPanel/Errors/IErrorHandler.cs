@@ -14,7 +14,7 @@ namespace FlightSimulatorApp.UserPanel.Errors
         /// <summary>
         /// Handle the given error.
         /// </summary>
-        /// <param name="error"> the given error </param>
+        /// <param name="error"> The given error. </param>
         void HandleError(string error);
     }
 }

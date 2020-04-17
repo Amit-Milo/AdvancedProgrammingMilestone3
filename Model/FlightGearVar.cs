@@ -17,19 +17,19 @@ namespace FlightSimulatorApp.Model
         /// <summary>
         /// Property of the variable's name. does not have a setter, because the name should not change.
         /// </summary>
-        public string VarName { get; }
+        public string VarName
+        {
+            get;
+        }
+
+        private bool updateOnlyOnChange;
         /// <summary>
-        /// The variable's value
+        /// The variable's value.
         /// </summary>
         private double varVal;
         /// <summary>
-        /// Property of the variable's value. it's setter also calls a notify observers function.
+        /// Property of the variable's value. its setter also calls a notify observers function.
         /// </summary>
-
-
-        private bool updateOnlyOnChange;
-
-
         public double VarValue
         {
             get
@@ -41,8 +41,8 @@ namespace FlightSimulatorApp.Model
                 if (varVal != value || !updateOnlyOnChange)
                 {
                     varVal = value;
-                    //if the var's value changed, should notify about that to the observers.
-                    PropertyChanged?.Invoke(this,new PropertyChangedEventArgs(VarName));
+                    // If the var's value changed, should notify about that to the observers.
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(VarName));
                 }
             }
         }
@@ -51,9 +51,9 @@ namespace FlightSimulatorApp.Model
         /// <summary>
         /// The constructor.
         /// </summary>
-        /// <param name="name"> the name of the variable </param>
-        /// <param name="value"> the value of the variable </param>
-        public FlightGearVar(string name,double value,bool updateOnlyOnChange = true)
+        /// <param name="name"> The name of the variable. </param>
+        /// <param name="value"> The value of the variable. </param>
+        public FlightGearVar(string name, double value, bool updateOnlyOnChange = true)
         {
             this.VarName = name;
             this.VarValue = value;

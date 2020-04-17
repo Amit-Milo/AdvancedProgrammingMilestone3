@@ -8,6 +8,7 @@ using FlightSimulatorApp.UserPanel.Connection;
 using System.Configuration;
 
 using FlightSimulatorApp.Model;
+using FlightSimulatorApp.UserPanel.Errors;
 using System.Net;
 
 namespace FlightSimulatorApp.UserPanel.Connection
@@ -16,26 +17,38 @@ namespace FlightSimulatorApp.UserPanel.Connection
     public class ConnectionPanelVM : IConnectionPanelVM
     {
         /// <summary>
-        /// the model that we use in the vm.
+        /// The model that we use in the vm.
         /// </summary>
         private readonly IFlightGearCommunicator model;
         private string connection_IP;
         private string connection_Port;
         public string Connection_IP
         {
-            get { return this.connection_IP; }
-            set { this.connection_IP = value; }
+            get
+            {
+                return this.connection_IP;
+            }
+            set
+            {
+                this.connection_IP = value;
+            }
         }
         public string Connection_Port
         {
-            get { return this.connection_Port; }
-            set { this.connection_Port = value; }
+            get
+            {
+                return this.connection_Port;
+            }
+            set
+            {
+                this.connection_Port = value;
+            }
         }
 
         /// <summary>
-        /// the constructor. get the default ip and port values from the App.config document.
+        /// The constructor. get the default ip and port values from the App.config document.
         /// </summary>
-        /// <param name="model"> the VM's model </param>
+        /// <param name="model"> The VM's model. </param>
         public ConnectionPanelVM(IFlightGearCommunicator model)
         {
             this.connection_IP = ConfigurationManager.AppSettings.Get("DEFAULT_IP");
@@ -47,7 +60,7 @@ namespace FlightSimulatorApp.UserPanel.Connection
         {
             if (IsValidInput())
             {
-                this.model.Connect(Connection_IP,Int32.Parse(Connection_Port));
+                this.model.Connect(Connection_IP, Int32.Parse(Connection_Port));
                 this.model.Start();
             }
             else
@@ -68,18 +81,40 @@ namespace FlightSimulatorApp.UserPanel.Connection
 
         private bool IsValidIP()
         {
-            return IPAddress.TryParse(this.connection_IP,out _);
+            return IPAddress.TryParse(this.connection_IP, out _);
         }
 
 
         private bool IsValidPort()
         {
-            return int.TryParse(this.Connection_Port,out _);
+            return int.TryParse(this.Connection_Port, out _);
         }
 
         public void NotifyBadInput()
         {
-            throw new NotImplementedException(); //TODO
+            if (!IsValidPort())
+            {
+                if (!IsValidIP())
+                {
+                    model.NotifyError(ErrorMessages.errorsEnum.InvalidPortAndIP);
+                }
+                else
+                {
+                    model.NotifyError(ErrorMessages.errorsEnum.InvalidPort);
+                }
+            }
+            else
+            {
+                if (!IsValidIP())
+                {
+                    model.NotifyError(ErrorMessages.errorsEnum.InavlidIP);
+                }
+                else
+                {
+                    model.NotifyError(ErrorMessages.errorsEnum.Other, "got to NotifyBadInput but both IP and port are valid");
+                }
+            }
         }
     }
 }
+

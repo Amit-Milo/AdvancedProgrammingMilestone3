@@ -22,16 +22,16 @@ namespace FlightSimulatorApp.UserPanel.Connection
     /// <summary>
     /// Interaction logic for ConnectionPanel.xaml
     /// </summary>
-    public partial class ConnectionPanel : UserControl
+    public partial class ConnectionPanel : UserControl, INotifyMouseUp
     {
 
         private IConnectionPanelVM vm;
 
         /// <summary>
-        /// constructor for the connection panel view. 
-        /// gets the vm and thus needs to be initialized in the code and not in the xaml.
+        /// Constructor for the connection panel view. 
+        /// Gets the vm and thus needs to be initialized in the code and not in the xaml.
         /// </summary>
-        /// <param name="vm"> the View's VM </param>
+        /// <param name="vm"> The View's VM. </param>
         public ConnectionPanel(IConnectionPanelVM viewModel)
         {
             InitializeComponent();
@@ -39,9 +39,11 @@ namespace FlightSimulatorApp.UserPanel.Connection
             DataContext = vm;
         }
 
+        public event MouseUpOnElement MouseUpOccurredReleaseJoystick;
+
 
         /// <summary>
-        /// handle event of connect button click
+        /// Handle event of connect button click.
         /// </summary>
         private void Connect_Click(object sender, RoutedEventArgs e)
         {
@@ -49,11 +51,16 @@ namespace FlightSimulatorApp.UserPanel.Connection
         }
 
         /// <summary>
-        /// handle event of disconnect button click
+        /// Handle event of disconnect button click.
         /// </summary>
-        private void Disconnect_Click(object sender,RoutedEventArgs e)
+        private void Disconnect_Click(object sender, RoutedEventArgs e)
         {
             this.vm.Disconnect();
+        }
+
+        private void NotifyMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            MouseUpOccurredReleaseJoystick?.Invoke(sender, e);
         }
     }
 }
