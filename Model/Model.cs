@@ -184,12 +184,14 @@ namespace FlightSimulatorApp.Model
                     socketMutex.WaitOne();
                     // Write the new value to the simulator.
                     telnetClient.Write("set " + varName + " " + value.ToString() + "\n");
-                    double simulatorReturn = HandleSimulatorReturn(varName);
+
                     socketMutex.ReleaseMutex();
 
                     if (this.vars.ContainsKey(varName))
-                        // Receive the accepted simulator value (in case the value we sent is out of bound).
-                        this.vars[varName].VarValue = simulatorReturn;
+                        // Recieve the accepted simulator value (in case the value we sent is out of bound)
+                        this.vars[varName].VarValue = HandleSimulatorReturn(varName);
+                    else
+                        telnetClient.Read();
                 }
                 catch (Exception e)
                 {
