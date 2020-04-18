@@ -109,20 +109,12 @@ namespace FlightSimulatorApp.Model
             {
             }
 
-            try
-            {
-                // Try to connect to host.
-                socketMutex.WaitOne();
-                this.telnetClient.Connect(ip, port);
-            }
-            catch
-            {
-                return;
-            }
-            finally
-            {
-                socketMutex.ReleaseMutex();
-            }
+            // Try to connect to host.
+            socketMutex.WaitOne();
+            this.telnetClient.Connect(ip, port);
+
+            socketMutex.ReleaseMutex();
+
 
             /* If there is a condition race give up, as if you don't you might not be connected to any server
              * but stop stays false.*/
@@ -165,11 +157,13 @@ namespace FlightSimulatorApp.Model
                 {
                     foreach (string varName in this.vars.Keys)
                     {
-                        if (stop) break;
+                        if (stop)
+                            break;
                         // Update the vars dictionary to the simulator values.
                         this.vars[varName].VarValue = this.GetFGVarValue(varName);
                     }
-                    if (stop) break;
+                    if (stop)
+                        break;
                     Thread.Sleep(samplingRate);
                 }
             }
@@ -179,35 +173,39 @@ namespace FlightSimulatorApp.Model
 
         private void SetFGVarValue(string varName, double value)
         {
-            if (!stop)
+            new Thread(delegate ()
             {
-                try
+                if (!stop)
                 {
-                    // Lock the simulator to prevent other threads contacting it at the same time.
-                    socketMutex.WaitOne();
-                    // Write the new value to the simulator.
-                    telnetClient.Write("set " + varName + " " + value.ToString() + "\n");
+                    try
+                    {
+                        // Lock the simulator to prevent other threads contacting it at the same time.
+                        socketMutex.WaitOne();
+                        // Write the new value to the simulator.
+                        telnetClient.Write("set " + varName + " " + value.ToString() + "\n");
 
-                    if (this.vars.ContainsKey(varName))
-                        // Receive the accepted simulator value (in case the value we sent is out of bound)
-                        this.vars[varName].VarValue = HandleSimulatorReturn(varName);
-                    else
-                        telnetClient.Read();
+                        if (this.vars.ContainsKey(varName))
+                            // Receive the accepted simulator value (in case the value we sent is out of bound)
+                            this.vars[varName].VarValue = HandleSimulatorReturn(varName);
+                        else
+                            telnetClient.Read();
+                    }
+                    catch (ServerNotConnectedException)
+                    {
+                        NotifyError(ErrorMessages.errorsEnum.ServerDisconnected);
+                        this.Disconnect();
+                    }
+                    catch (Exception e)
+                    {
+                        NotifyError(ErrorMessages.errorsEnum.Other, e.Message);
+                    }
+                    finally
+                    {
+                        socketMutex.ReleaseMutex();
+                    }
                 }
-                catch (ServerNotConnectedException)
-                {
-                    NotifyError(ErrorMessages.errorsEnum.ServerDisconnected);
-                    this.Disconnect();
-                }
-                catch (Exception e)
-                {
-                    NotifyError(ErrorMessages.errorsEnum.Other, e.Message);
-                }
-                finally
-                {
-                    socketMutex.ReleaseMutex();
-                }
-            }
+            }).Start();
+            
         }
 
 

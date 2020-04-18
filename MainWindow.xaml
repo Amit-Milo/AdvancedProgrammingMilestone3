@@ -29,6 +29,8 @@
             <StackPanel x:Name="settingsPanel" Orientation="Horizontal" Grid.Row="0">
                 <ToggleButton x:Name="darkModeButton" Width="150" Height="50" HorizontalAlignment="Center"
                               Checked="SetDarkModeOn" Unchecked="SetDarkModeOff"/>
+                <ToggleButton x:Name="autoMapZoomButton" Width="150" Height="50" HorizontalAlignment="Center"
+                              Checked="TurnOnAutoZoom" Unchecked="TurnOffAutoZoom"/>
             </StackPanel>
 
             <!-- The map  (to be added at the code behind) -->

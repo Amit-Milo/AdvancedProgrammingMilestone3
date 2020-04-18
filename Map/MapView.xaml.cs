@@ -21,8 +21,11 @@ namespace FlightSimulatorApp.Map
     /// <summary>
     /// Interaction logic for MapView.xaml
     /// </summary>
-    public partial class MapView : UserControl
+    public partial class MapView : UserControl, IAutoZoomMap
     {
+
+        private bool isAutoZoomOn;
+
         public MapView(IMapViewModel viewModel)
         {
             InitializeComponent();
@@ -32,19 +35,31 @@ namespace FlightSimulatorApp.Map
             viewModel.PropertyChanged +=
                 delegate (object sender, PropertyChangedEventArgs e)
                 {
+
                     try
                     {
                         this.Dispatcher.Invoke(() =>
                         {
                             double a = 5.8, b = 1.3;
-                            if (e.PropertyName == "Velocity")
+                            if (this.isAutoZoomOn && e.PropertyName == "Velocity")
                                 map.SetView(viewModel.Position, a - b * Math.Log(viewModel.Velocity));
                         });
                     }
                     catch
                     {
                     }
+
                 };
+        }
+
+        public void TurnOffAutoZoom(object sender = null, RoutedEventArgs e = null)
+        {
+            this.isAutoZoomOn = false;
+        }
+
+        public void TurnOnAutoZoom(object sender = null, RoutedEventArgs e = null)
+        {
+            this.isAutoZoomOn = true;
         }
     }
 }

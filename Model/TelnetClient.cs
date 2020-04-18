@@ -35,17 +35,30 @@ namespace FlightSimulatorApp.Model
         /// <param name="port"> The hosts port. </param>
         public void Connect(string ip, int port)
         {
-            // Instantiate the tcp client.
-            client = new TcpClient(ip, port)
+            new Thread(delegate ()
             {
-                // Set time out values.
-                ReceiveTimeout = 10000,
-                SendTimeout = 10000
-            };
+                try
+                {
+                    // Instantiate the tcp client.
+                    client = new TcpClient(ip, port)
+                    {
+                        // Set time out values.
+                        ReceiveTimeout = 10000,
+                        SendTimeout = 10000
+                    };
 
-            // Get the stream and the reader associated with the client.
-            stream = client.GetStream();
-            reader = new StreamReader(stream);
+                    // Get the stream and the reader associated with the client.
+                    stream = client.GetStream();
+                    reader = new StreamReader(stream);
+                }
+                catch
+                {
+
+                }
+
+
+            }).Start();
+            
         }
 
 

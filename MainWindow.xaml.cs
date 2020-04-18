@@ -27,7 +27,7 @@ namespace FlightSimulatorApp
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, IDarkModeCapable
+    public partial class MainWindow : Window, IDarkModeCapable, IAutoZoomMap
     {
         private DashboardView dashboard;
         private MapView map;
@@ -54,6 +54,7 @@ namespace FlightSimulatorApp
             Grid.SetRow(this.map, 1);
 
             this.SetDarkModeOff();
+            this.TurnOffAutoZoom();
         }
 
         private void Window_MouseUp(object sender, MouseButtonEventArgs e)
@@ -69,7 +70,7 @@ namespace FlightSimulatorApp
 
         public void SetDarkModeOn(object sender = null, RoutedEventArgs e = null)
         {
-            darkModeButton.Content = "Dark mode is on\nClick to set dark mode OFF";
+            darkModeButton.Content = "Dark mode is on\nClick to set dark mode Off";
             settingsPanel.Background = System.Windows.Media.Brushes.LightGray;
             this.userMainPanel.SetDarkModeOn();
             this.dashboard.SetDarkModeOn();
@@ -77,10 +78,22 @@ namespace FlightSimulatorApp
 
         public void SetDarkModeOff(object sender = null, RoutedEventArgs e = null)
         {
-            darkModeButton.Content = "Dark mode is off\nClick to set dark mode ON";
+            darkModeButton.Content = "Dark mode is off\nClick to set dark mode On";
             settingsPanel.Background = System.Windows.Media.Brushes.White;
             this.userMainPanel.SetDarkModeOff();
             this.dashboard.SetDarkModeOff();
+        }
+
+        public void TurnOnAutoZoom(object sender = null, RoutedEventArgs e = null)
+        {
+            autoMapZoomButton.Content = "map auto zoom is on\nClick to set auto zoom Off";
+            this.map.TurnOnAutoZoom();
+        }
+
+        public void TurnOffAutoZoom(object sender = null, RoutedEventArgs e = null)
+        {
+            autoMapZoomButton.Content = "map auto zoom is off\nClick to set auto zoom ON";
+            this.map.TurnOffAutoZoom();
         }
     }
 }
