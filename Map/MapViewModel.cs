@@ -12,6 +12,10 @@ using FlightSimulatorApp.Model;
 
 namespace FlightSimulatorApp.Map
 {
+    /// <summary>
+    /// View model in the mvvm architecture.
+    /// Act as a view for the model and as a model for the map view.
+    /// </summary>
     public class MapViewModel : IMapViewModel
     {
         private static readonly string latitudeName = "/position/latitude-deg";
@@ -91,7 +95,7 @@ namespace FlightSimulatorApp.Map
 
 
         /// <summary>
-        /// The position of the plane.
+        /// The position of the plane relatively to the map layout.
         /// </summary>
         public Location Position
         {
@@ -120,6 +124,28 @@ namespace FlightSimulatorApp.Map
             }
         }
 
+
+        private double velocity = 0;
+        public double Velocity
+        {
+            get
+            {
+                return this.velocity;
+            }
+            private set
+            {
+                this.velocity = value;
+                NotifyPropertyChanged("Velocity");
+            }
+        }
+
+        
+        /// <summary>
+        /// Calculate the angle between 2 latitude, longitude points.
+        /// </summary>
+        /// <param name="p1"> First location. </param>
+        /// <param name="p2"> Second location. </param>
+        /// <returns> The angle between the two points. </returns>
         private static double CalculateRotation(Location p1, Location p2)
         {
             // Convert to radians.
@@ -130,7 +156,7 @@ namespace FlightSimulatorApp.Map
 
 
             // The difference between the longitudes.
-            double dLon = (long2 - long1);
+            double dLon = long2 - long1;
 
             double y = Math.Sin(dLon) * Math.Cos(lat2);
             double x = Math.Cos(lat1) * Math.Sin(lat2) - Math.Sin(lat1)
@@ -140,6 +166,31 @@ namespace FlightSimulatorApp.Map
 
             // Convert to radians and rotate the angle as the plane starts directed right.
             return brng * 180 / Math.PI - 90;
+        }
+
+
+        /// <summary>
+        /// Calculate the current velocity (distance) between 2 points.
+        /// </summary>
+        /// <param name="p1"> First point. </param>
+        /// <param name="p2"> Second point. </param>
+        /// <returns> The distance between the two points. </returns>
+        private static double CalculateVelocity(Location p1, Location p2)
+        {
+            double lat1 = p1.Latitude * Math.PI / 180;
+            double lat2 = p2.Latitude * Math.PI / 180;
+            double long1 = p1.Longitude * Math.PI / 180;
+            double long2 = p2.Longitude * Math.PI / 180;
+
+            double dLat = lat2 - lat1;
+            double dLon = long2 - long1;
+
+            double R = 6371;
+
+            double a = Math.Pow(Math.Sin(dLat / 2), 2) + Math.Cos(lat1) * Math.Cos(lat2) * Math.Pow(dLon / 2, 2);
+            double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+
+            return c * R;
         }
 
 
@@ -167,7 +218,17 @@ namespace FlightSimulatorApp.Map
         private double NormalizeLatitude(double candidate)
         {
             double MAX = 90, MIN = -90;
-            return (candidate > MAX) ? MAX : (candidate < MIN) ? MIN : candidate;
+            if (candidate < MIN)
+            {
+                model.NotifyError(UserPanel.Errors.ErrorMessages.errorsEnum.ValueOutsideRange, latitudeName);
+                return MIN;
+            }
+            if (MAX < candidate)
+            {
+                model.NotifyError(UserPanel.Errors.ErrorMessages.errorsEnum.ValueOutsideRange, latitudeName);
+                return MAX;
+            }
+            return candidate;
         }
 
 
@@ -178,7 +239,18 @@ namespace FlightSimulatorApp.Map
         /// <returns> The next value </returns>
         private double NormalizeLongitude(double candidate)
         {
-            return Location.NormalizeLongitude(candidate);
+            double MAX = 180, MIN = -180;
+            if (candidate < MIN)
+            {
+                model.NotifyError(UserPanel.Errors.ErrorMessages.errorsEnum.ValueOutsideRange, longitudeName);
+                return MIN;
+            }
+            if (MAX < candidate)
+            {
+                model.NotifyError(UserPanel.Errors.ErrorMessages.errorsEnum.ValueOutsideRange, longitudeName);
+                return MAX;
+            }
+            return candidate;
         }
 
 
@@ -224,6 +296,7 @@ namespace FlightSimulatorApp.Map
                     {
                         // Calculate the angle between the last position and the new one.
                         this.Rotation = CalculateRotation(lastLocation, Position);
+                        this.Velocity = CalculateVelocity(lastLocation, Position);
 
                         // Update last location.
                         this.lastLocation = Position;

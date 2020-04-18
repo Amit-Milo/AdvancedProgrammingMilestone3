@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace FlightSimulatorApp.Dashboard
 {
+    /// <summary>
+    /// View model in the mvvm architecture.
+    /// Act as a view for the model and as a model for the dashboard view.
+    /// </summary>
     public interface IDashboardViewModel : INotifyPropertyChanged
     {
         /// <summary>

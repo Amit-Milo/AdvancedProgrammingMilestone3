@@ -19,16 +19,24 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- The map part (to be added) -->
-        <Grid Grid.RowSpan="2">
-            <Rectangle Fill="GreenYellow"/>
-            <TextBlock Text="MAP" FontSize="150" TextAlignment="Center"  Margin="55"/>
+        <Grid x:Name="leftSide" Grid.Column="0" Grid.RowSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- the settings bar -->
+            <StackPanel x:Name="settingsPanel" Orientation="Horizontal" Grid.Row="0">
+                <ToggleButton x:Name="darkModeButton" Width="150" Height="50" HorizontalAlignment="Center"
+                              Checked="SetDarkModeOn" Unchecked="SetDarkModeOff"/>
+            </StackPanel>
+
+            <!-- The map  (to be added at the code behind) -->
+
         </Grid>
 
+
         <!-- The data board  (to be added at the code behind) -->
-        <Grid Grid.Column="1">
-            <Rectangle Fill="LightBlue"/>
-        </Grid>
 
         <!-- The user panel (to be added at the code behind) -->
     </Grid>

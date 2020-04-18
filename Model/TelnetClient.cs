@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+using FlightSimulator.Model;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -57,7 +59,11 @@ namespace FlightSimulatorApp.Model
                 throw new Exception("should connect first");
             }
             stream.Close();
+            reader.Close();
             client.Close();
+
+            client = null;
+            timesOutLately = 0;
         }
 
 
@@ -73,7 +79,7 @@ namespace FlightSimulatorApp.Model
                 throw new Exception("should connect first");
             }
             if (!client.Connected)
-                throw new Exception("Server isn't connected.");
+                throw new ServerNotConnectedException();
 
             // Read data from server, in a threading safe way.
             mutex.WaitOne();
@@ -126,7 +132,7 @@ namespace FlightSimulatorApp.Model
                 throw new Exception("should connect first");
             }
             if (!client.Connected)
-                throw new Exception("Server isn't connected.");
+                throw new ServerNotConnectedException();
 
             // Add a '\n' to the end of the message if there is no \n there. 
             if (sendMessage[sendMessage.Length - 1] != '\n')

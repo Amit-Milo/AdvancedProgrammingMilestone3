@@ -9,13 +9,33 @@ using Microsoft.Maps.MapControl.WPF;
 
 namespace FlightSimulatorApp.Map
 {
+    /// <summary>
+    /// View model in the mvvm architecture.
+    /// Act as a view for the model and as a model for the map view.
+    /// </summary>
     public interface IMapViewModel : INotifyPropertyChanged
     {
+        /// <summary>
+        /// The position of the plane relatively to the map layout.
+        /// </summary>
         Location Position
         {
             get;
         }
+
+
+        /// <summary>
+        /// The angle in which the plane is directed.
+        /// </summary>
         double Rotation
+        {
+            get;
+        }
+
+        /// <summary>
+        /// The current velocity of the plane.
+        /// </summary>
+        double Velocity
         {
             get;
         }

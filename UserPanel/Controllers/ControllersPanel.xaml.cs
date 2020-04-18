@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FlightSimulatorApp.DarkMode;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,7 @@ namespace FlightSimulatorApp.UserPanel.Controllers
     /// <summary>
     /// Interaction logic for ControllersPanel.xaml
     /// </summary>
-    public partial class ControllersPanel : UserControl, INotifyMouseUp
+    public partial class ControllersPanel : UserControl, INotifyMouseUp, IDarkModeWithText
     {
         private IControllersPanelVM vm;
 
@@ -38,8 +39,18 @@ namespace FlightSimulatorApp.UserPanel.Controllers
             this.vm.DisconnectionOccurred +=
                 delegate ()
                 {
-                    ThrottleSlider.Value = 0;
-                    AileronSlider.Value = 0;
+                    try
+                    {
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            ThrottleSlider.Value = 0;
+                            AileronSlider.Value = 0;
+                        });
+                    }
+                    catch
+                    {
+
+                    }
                 };
         }
 
@@ -65,6 +76,43 @@ namespace FlightSimulatorApp.UserPanel.Controllers
         private void NotifyMouseUp(object sender, MouseButtonEventArgs e)
         {
             MouseUpOccurredReleaseJoystick?.Invoke(sender, e);
+        }
+
+        public void SetDarkModeOn(object sender = null, RoutedEventArgs e = null)
+        {
+            byte darkness = 65;
+            this.panelBackground.Fill = new SolidColorBrush(Color.FromRgb(darkness, darkness, darkness));
+            this.ChangeTextColor(System.Windows.Media.Brushes.White);
+        }
+
+        public void SetDarkModeOff(object sender = null, RoutedEventArgs e = null)
+        {
+            this.panelBackground.Fill = System.Windows.Media.Brushes.White;
+            this.ChangeTextColor(System.Windows.Media.Brushes.Black);
+        }
+        public void ChangeTextColor(System.Windows.Media.Brush b)
+        {
+            foreach (object tb in JoystickValues.Children)
+            {
+                if (tb is TextBlock)
+                {
+                    (tb as TextBlock).Foreground = b;
+                }
+            }
+            foreach (object tb in ThrottleValue.Children)
+            {
+                if (tb is TextBlock)
+                {
+                    (tb as TextBlock).Foreground = b;
+                }
+            }
+            foreach (object tb in AileronValue.Children)
+            {
+                if (tb is TextBlock)
+                {
+                    (tb as TextBlock).Foreground = b;
+                }
+            }
         }
     }
 }

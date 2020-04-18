@@ -9,6 +9,10 @@ using FlightSimulatorApp.Model;
 
 namespace FlightSimulatorApp.Dashboard
 {
+    /// <summary>
+    /// View model in the mvvm architecture.
+    /// Act as a view for the model and as a model for the dashboard view.
+    /// </summary>
     public class DashboardViewModel : IDashboardViewModel
     {
         // Save the full names of the variables as used in the simulator.

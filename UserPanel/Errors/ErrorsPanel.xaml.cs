@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using FlightSimulatorApp.DarkMode;
 using FlightSimulatorApp.UserPanel.Errors;
 
 namespace FlightSimulatorApp.UserPanel.Errors
@@ -19,7 +20,7 @@ namespace FlightSimulatorApp.UserPanel.Errors
     /// <summary>
     /// Interaction logic for ErrorsPanel.xaml
     /// </summary>
-    public partial class ErrorsPanel : UserControl
+    public partial class ErrorsPanel : UserControl, IDarkModeWithText
     {
         private IErrorsPanelMessager vm;
 
@@ -33,6 +34,24 @@ namespace FlightSimulatorApp.UserPanel.Errors
             InitializeComponent();
             this.vm = vm;
             DataContext = vm;
+        }
+
+        public void SetDarkModeOff(object sender = null, RoutedEventArgs e = null)
+        {
+            backgroundRectangle.Fill = System.Windows.Media.Brushes.LightYellow;
+            this.ChangeTextColor(System.Windows.Media.Brushes.Red);
+        }
+
+        public void SetDarkModeOn(object sender = null, RoutedEventArgs e = null)
+        {
+            byte darkness = 65;
+            backgroundRectangle.Fill = new SolidColorBrush(Color.FromRgb(darkness, darkness, darkness));
+            this.ChangeTextColor(System.Windows.Media.Brushes.OrangeRed);
+        }
+
+        public void ChangeTextColor(Brush b)
+        {
+            this.ErrorPanel.Foreground = b;
         }
     }
 }

@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <m:Map Name="map" ZoomLevel="1" CredentialsProvider="k87GWJIBk5GzjpevX0rS~Q0hMcicCCgQwZfVW8S2OZQ~AlO4xgmfaP7vUNSfy2UCkXrV5vRNBKOErfJiH6YRqiUJ3_pqEgbRZqo2pq6ergK5">
+        <m:Map Name="map" ZoomLevel="1" CredentialsProvider="k87GWJIBk5GzjpevX0rS~Q0hMcicCCgQwZfVW8S2OZQ~AlO4xgmfaP7vUNSfy2UCkXrV5vRNBKOErfJiH6YRqiUJ3_pqEgbRZqo2pq6ergK5" BorderBrush="LightGray">
             <Canvas Width="50" Height="50" 
               m:MapLayer.Position="{Binding Position}">
                 <Image Source="/images/plane.png" Width="50" Height="50" RenderTransformOrigin="0.5,0.5">

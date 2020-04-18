@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:FlightSimulatorApp.Dashboard"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <Grid x:Name="dashboardGrid" Background="Red">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
@@ -18,7 +18,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Label x:Name="heading_deg" Content="{Binding HeadingDeg}" ContentStringFormat="Heading&#xA;Degree:&#xA;{0}" BorderBrush="Black" BorderThickness="3" FontWeight="Bold" />
+        <Label x:Name="heading_deg" Content="{Binding HeadingDeg}" ContentStringFormat="Heading&#xA;Degree:&#xA;{0}" BorderBrush="Black" BorderThickness="3" FontWeight="Bold"/>
         <Label x:Name="vertical_speed" Content="{Binding VerticalSpeed}" ContentStringFormat="Vertical&#xA;Speed:&#xA;{0}" Grid.Column="1" BorderBrush="Black" BorderThickness="3" FontWeight="Bold" />
         <Label x:Name="ground_speed" Content="{Binding GroundSpeed}" ContentStringFormat="Ground&#xA;Speed:&#xA;{0}" Grid.Column="2" BorderBrush="Black" BorderThickness="3" FontWeight="Bold" />
         <Label x:Name="airspeed" Content="{Binding AirSpeed}" ContentStringFormat="Air&#xA;Speed:&#xA;{0}" Grid.Column="3" BorderBrush="Black" BorderThickness="3" FontWeight="Bold" />
@@ -26,5 +26,6 @@
         <Label x:Name="internal_roll" Content="{Binding InternalRoll}" ContentStringFormat="Internal&#xA;Roll:&#xA;{0}" Grid.Row="1" Grid.Column="1" BorderBrush="Black" BorderThickness="3" FontWeight="Bold" />
         <Label x:Name="internal_pitch" Content="{Binding InternalPitch}" ContentStringFormat="Internal&#xA;Pitch:&#xA;{0}" Grid.Row="1" Grid.Column="2" BorderBrush="Black" BorderThickness="3" FontWeight="Bold" />
         <Label x:Name="altimer_altitude" Content="{Binding AltimeterAltitude}" ContentStringFormat="Altimeter&#xA;Altitude:&#xA;{0}" Grid.Row="1" Grid.Column="3" BorderBrush="Black" BorderThickness="3" FontWeight="Bold" />
+       
     </Grid>
 </UserControl>

@@ -10,8 +10,8 @@
         <!-- gets the size of the window -->
         <Border Name="b"  />
         <!-- nice colored background -->
-        <Rectangle Fill="LightGray" Width="{Binding ElementName=b,Path=ActualWidth}" Height="{Binding ElementName=b,Path=ActualHeight}"/>
+        <Rectangle x:Name="backgroundRectangle" Fill="LightGray" Width="{Binding ElementName=b,Path=ActualWidth}" Height="{Binding ElementName=b,Path=ActualHeight}"/>
         <!-- the block that displays the error messages -->
-        <TextBlock x:Name="ErrorPanel" Text="{Binding ErrorMessage, Mode=OneWay}" Width="{Binding ElementName=b,Path=ActualWidth}" TextWrapping="Wrap" Height="50"/>
+        <TextBlock x:Name="ErrorPanel" Text="{Binding ErrorMessage, Mode=OneWay}" Width="{Binding ElementName=b,Path=ActualWidth}" TextWrapping="Wrap" FontFamily="Comic Sans Ms" Height="50"/>
     </Grid>
 </UserControl>

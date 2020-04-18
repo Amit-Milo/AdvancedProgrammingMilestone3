@@ -16,13 +16,14 @@ using System.Configuration;
 using System.Collections.Specialized;
 using FlightSimulatorApp.UserPanel;
 using FlightSimulatorApp.UserPanel.Connection;
+using FlightSimulatorApp.DarkMode;
 
 namespace FlightSimulatorApp.UserPanel.Connection
 {
     /// <summary>
     /// Interaction logic for ConnectionPanel.xaml
     /// </summary>
-    public partial class ConnectionPanel : UserControl, INotifyMouseUp
+    public partial class ConnectionPanel : UserControl, INotifyMouseUp, IDarkModeWithText
     {
 
         private IConnectionPanelVM vm;
@@ -40,6 +41,31 @@ namespace FlightSimulatorApp.UserPanel.Connection
         }
 
         public event MouseUpOnElement MouseUpOccurredReleaseJoystick;
+
+        
+        public void SetDarkModeOff(object sender = null, RoutedEventArgs e = null)
+        {
+            this.connectionPanel.Background = System.Windows.Media.Brushes.White;
+            this.ChangeTextColor(System.Windows.Media.Brushes.Black);
+        }
+
+        public void SetDarkModeOn(object sender = null, RoutedEventArgs e = null)
+        {
+            byte darkness = 65;
+            this.connectionPanel.Background = new SolidColorBrush(Color.FromRgb(darkness, darkness, darkness));
+            this.ChangeTextColor(System.Windows.Media.Brushes.White);
+        }
+
+        public void ChangeTextColor(Brush b)
+        {
+            foreach (object tb in connectionPanel.Children)
+            {
+                if (tb is TextBlock)
+                {
+                    (tb as TextBlock).Foreground = b;
+                }
+            }
+        }
 
 
         /// <summary>

@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:FlightSimulatorApp.UserPanel.Connection"
              mc:Ignorable="d" 
              d:DesignHeight="150" d:DesignWidth="800">
-    <Grid>
+    <Grid x:Name="connectionPanel">
         <Grid.ColumnDefinitions>
             <!-- the ip label -->
             <ColumnDefinition Width="Auto"/>

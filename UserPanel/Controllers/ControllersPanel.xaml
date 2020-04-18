@@ -19,51 +19,39 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Rectangle Fill="White" Grid.RowSpan="6"/>
+        <!-- The panel's background -->
+        <Rectangle x:Name="panelBackground" Fill="DarkSlateGray" Grid.RowSpan="6"/>
 
         <!-- X,Y values -->
         <Grid x:Name="JoystickValues">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="0" Margin="5,5,5,5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-                <TextBlock Text="Rudder (X): " TextAlignment="Center" Grid.Column="0"/>
-                <TextBlock Text="{Binding Rudder}" TextAlignment="Left" Grid.Column="1"/>
-            </Grid>
-            <Grid Grid.Column="1" Margin="5,5,5,5">
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-                <TextBlock Text="Elevator (Y): " TextAlignment="Center" Grid.Column="0"/>
-                <TextBlock Text="{Binding Elevator}" TextAlignment="Left" Grid.Column="1"/>
-            </Grid>
+            <TextBlock Text="Rudder (X): " TextAlignment="Center" Grid.Column="0" FontWeight="Bold"/>
+            <TextBlock Text="{Binding Rudder}" TextAlignment="Left" Grid.Column="1" FontWeight="Bold"/>
+            <TextBlock Text="Elevator (Y): " TextAlignment="Center" Grid.Column="2" FontWeight="Bold"/>
+            <TextBlock Text="{Binding Elevator}" TextAlignment="Left" Grid.Column="3" FontWeight="Bold"/>
         </Grid>
         <!-- Joystick -->
         <local:Joystick x:Name="joyStickPanel" Grid.Row="1" 
                         NormalizedKnobX="{Binding Rudder, Mode=OneWayToSource}" NormalizedKnobY="{Binding Elevator, Mode=OneWayToSource}"/>
         <!-- Slider 1 -->
         <StackPanel x:Name="FirstSliderBlock" Orientation="Vertical" Grid.Row="2">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Throttle: " TextAlignment="Center"/>
-                <TextBlock x:Name="ThrottleSliderValue" Text="{Binding ElementName=ThrottleSlider, Path=Value}" TextAlignment="Center"/>
+            <StackPanel x:Name="ThrottleValue" Orientation="Horizontal">
+                <TextBlock Text="Throttle: " TextAlignment="Center" FontWeight="Bold"/>
+                <TextBlock x:Name="ThrottleSliderValue" Text="{Binding ElementName=ThrottleSlider, Path=Value}" TextAlignment="Center" FontWeight="Bold"/>
             </StackPanel>
             <Slider x:Name="ThrottleSlider" Minimum="0" Maximum="1" Value="{Binding Throttle, Mode=TwoWay}" PreviewMouseUp="NotifyMouseUp"/>
         </StackPanel>
         <!-- Slider 2 -->
         <StackPanel x:Name="SecondSliderBlock" Orientation="Vertical" Grid.Row="3">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Aileron: " TextAlignment="Center"/>
-                <TextBlock x:Name="AileronSliderValue" Text="{Binding ElementName=AileronSlider, Path=Value}" TextAlignment="Center"/>
+            <StackPanel x:Name="AileronValue" Orientation="Horizontal">
+                <TextBlock Text="Aileron: " TextAlignment="Center" FontWeight="Bold"/>
+                <TextBlock x:Name="AileronSliderValue" Text="{Binding ElementName=AileronSlider, Path=Value}" TextAlignment="Center" FontWeight="Bold"/>
             </StackPanel>
             <Slider x:Name="AileronSlider" Minimum="-1" Maximum="1" Value="{Binding Aileron, Mode=TwoWay}" PreviewMouseUp="NotifyMouseUp"/>
         </StackPanel>

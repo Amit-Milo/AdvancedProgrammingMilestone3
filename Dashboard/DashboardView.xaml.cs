@@ -1,5 +1,8 @@
-﻿using System;
+﻿using FlightSimulatorApp.DarkMode;
+using FlightSimulatorApp.UserPanel;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +21,7 @@ namespace FlightSimulatorApp.Dashboard
     /// <summary>
     /// Interaction logic for DashboardView.xaml
     /// </summary>
-    public partial class DashboardView : UserControl
+    public partial class DashboardView : UserControl, IDarkModeWithText
     {
         /// <summary>
         /// The constructor.
@@ -27,8 +30,33 @@ namespace FlightSimulatorApp.Dashboard
         public DashboardView(IDashboardViewModel viewModel)
         {
             InitializeComponent();
-
             DataContext = viewModel;
+        }
+
+
+        public void SetDarkModeOff(object sender = null, RoutedEventArgs e = null)
+        {
+            this.dashboardGrid.Background = System.Windows.Media.Brushes.White;
+            this.ChangeTextColor(System.Windows.Media.Brushes.Black);
+        }
+
+        public void SetDarkModeOn(object sender = null, RoutedEventArgs e = null)
+        {
+            byte darkness = 30;
+            this.dashboardGrid.Background = new SolidColorBrush(Color.FromRgb(darkness, darkness, darkness));
+            this.ChangeTextColor(System.Windows.Media.Brushes.White);
+        }
+
+        public void ChangeTextColor(System.Windows.Media.Brush b)
+        {
+            foreach (object l in dashboardGrid.Children)
+            {
+                if (l is Label)
+                {
+                    (l as Label).Foreground = b;
+                }
+                
+            }
         }
     }
 }
