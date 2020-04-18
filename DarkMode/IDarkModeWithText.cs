@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FlightSimulatorApp.DarkMode
 {
-    interface IDarkModeWithText : IDarkModeCapable
+    public interface IDarkModeWithText : IDarkModeCapable
     {
         /// <summary>
         /// Change the color of the text in this view.
